@@ -11,28 +11,32 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; font-family: 'Pretendard', sans-serif; line-height: 1.6; color: #333; word-break: keep-all; }
         
-        /* 헤더 스타일 - 모바일 대응 */
+        /* ------------------------------------------- */
+        /* [공통 및 모바일 기본 스타일]                  */
+        /* ------------------------------------------- */
+        
+        /* 헤더 스타일 */
         header { 
             background: #fff; 
-            padding: 0 5%; 
+            padding: 0 20px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             border-bottom: 1px solid #eee; 
             position: fixed; 
             width: 100%; 
-            height: 70px;
+            height: 60px;
             top: 0; 
             z-index: 1000; 
         }
-        .logo { font-size: 24px; font-weight: 800; color: #1a2a6c; cursor: pointer; }
+        .logo { font-size: 22px; font-weight: 800; color: #1a2a6c; cursor: pointer; }
         
-        /* 네비게이션 스타일 */
+        /* 네비게이션 */
         nav { display: flex; align-items: center; height: 100%; }
-        .nav-item { position: relative; margin-left: 15px; height: 100%; display: flex; align-items: center; cursor: pointer; }
-        .nav-link { text-decoration: none; color: #555; font-weight: 600; cursor: pointer; padding: 10px 5px; font-size: 15px; }
+        .nav-item { position: relative; margin-left: 12px; height: 100%; display: flex; align-items: center; cursor: pointer; }
+        .nav-link { text-decoration: none; color: #555; font-weight: 600; padding: 10px 5px; font-size: 14px; }
         
-        /* 드롭다운 스타일 - 터치 및 호버 대응 */
+        /* 드롭다운 (모바일 기본) */
         .dropdown-content {
             display: none;
             position: absolute;
@@ -40,32 +44,27 @@
             min-width: 120px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
             border-radius: 8px;
-            top: 70px; /* 헤더 높이(70px)에 정확히 맞춤 */
+            top: 60px; 
             right: 0;
             border: 1px solid #eee;
             z-index: 1001;
         }
         .dropdown-content a {
             color: #555;
-            padding: 15px;
+            padding: 14px 16px;
             text-decoration: none;
             display: block;
-            font-size: 14px;
+            font-size: 13px;
             border-bottom: 1px solid #f9f9f9;
             cursor: pointer;
         }
         .dropdown-content a:last-child { border-bottom: none; }
-        
-        /* 데스크탑 호버 / 모바일 활성화 클래스 */
-        @media (min-width: 1024px) {
-            .nav-item:hover .dropdown-content { display: block; }
-        }
         .nav-item.active-menu .dropdown-content { display: block; }
 
         /* 섹션 제어 및 애니메이션 */
         .content-section { 
             display: none; 
-            padding: 100px 20px 60px; 
+            padding: 90px 20px 60px; 
             min-height: 100vh; 
             opacity: 0; 
             transform: translateY(10px);
@@ -77,63 +76,90 @@
             transform: translateY(0);
         }
 
-        /* 홈(Hero) 스타일 - 모바일 가독성 향상 */
+        /* 홈(Hero) 스타일 - 모바일 */
         .hero { 
-            height: 90vh; 
+            height: 80vh; 
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80'); 
             background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            text-align: center; color: #fff; border-radius: 0 0 30px 30px;
+            text-align: center; color: #fff; border-radius: 0 0 24px 24px;
             margin-top: -30px;
         }
-        .hero h1 { font-size: 1.8rem; margin-bottom: 15px; padding: 0 20px; line-height: 1.3; }
-        .hero p { font-size: 1rem; opacity: 0.9; }
+        .hero h1 { font-size: 1.8rem; margin-bottom: 15px; padding: 0 20px; line-height: 1.4; font-weight: 800; }
+        .hero p { font-size: 0.95rem; opacity: 0.9; margin: 0; padding: 0 20px; }
         .btn { 
-            margin-top: 20px; padding: 16px 40px; background: #f39c12; color: #fff; 
+            margin-top: 25px; padding: 14px 36px; background: #f39c12; color: #fff; 
             border: none; border-radius: 50px; font-weight: bold; cursor: pointer; 
-            font-size: 1rem; box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            font-size: 0.95rem; box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            transition: background 0.2s;
         }
 
-        /* 프로필 카드 - 모바일 폭 최적화 */
+        /* 타이틀 및 카드 - 모바일 */
+        .section-title { text-align: center; font-size: 1.6rem; color: #1a2a6c; margin-bottom: 25px; font-weight: 800; }
+        
         .profile-card {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto; 
-            background: #f9f9f9; 
-            padding: 40px 30px;
-            border-radius: 20px;
-            text-align: left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            width: 100%; max-width: 450px; margin: 0 auto; 
+            background: #f9f9f9; padding: 30px 20px; border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
         }
-        .profile-info h3 { font-size: 1.8rem; margin: 0 0 5px 0; color: #1a2a6c; }
-        .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 20px; display: block; font-size: 0.9rem; }
-        
+        .profile-info h3 { font-size: 1.5rem; margin: 0 0 5px 0; color: #1a2a6c; }
+        .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 20px; display: block; font-size: 0.85rem; }
         .profile-list { list-style: none; padding: 0; margin: 0; }
-        .profile-list li { margin-bottom: 12px; font-size: 1rem; display: flex; align-items: flex-start; }
-        .profile-list li::before { content: '✓'; color: #f39c12; font-weight: bold; margin-right: 10px; flex-shrink: 0; }
-        
-        .section-title { text-align: center; font-size: 1.8rem; color: #1a2a6c; margin-bottom: 30px; font-weight: 800; }
+        .profile-list li { margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: flex-start; }
+        .profile-list li::before { content: '✓'; color: #f39c12; font-weight: bold; margin-right: 8px; flex-shrink: 0; }
 
-        /* 서비스 카드 그리드 */
-        .service-grid {
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 15px; max-width: 900px; margin: 0 auto;
-        }
-        .service-item { padding: 40px 20px; background: #f9f9f9; border-radius: 15px; text-align: center; border: 1px solid #eee; }
+        /* 서비스 카드 - 모바일 */
+        .service-grid { display: grid; grid-template-columns: 1fr; gap: 15px; max-width: 500px; margin: 0 auto; }
+        .service-item { padding: 30px 20px; background: #f9f9f9; border-radius: 12px; text-align: center; border: 1px solid #eee; }
+        .service-item h3 { margin-top: 0; font-size: 1.3rem; }
 
         /* 문의 섹션 */
-        .contact-box {
-            background: #f9f9f9; padding: 40px 20px; border-radius: 20px; width: 100%; max-width: 400px; margin: 0 auto;
-        }
-        .contact-box p { font-size: 1.1rem; margin: 20px 0; }
+        .contact-box { background: #f9f9f9; padding: 35px 20px; border-radius: 16px; width: 100%; max-width: 360px; margin: 0 auto; }
+        .contact-box p { font-size: 1rem; margin: 18px 0; }
         .contact-box a { color: #1a2a6c; text-decoration: none; font-weight: bold; border-bottom: 2px solid #f39c12; padding-bottom: 2px; }
 
-        /* 데스크탑 환경 (화면이 넓을 때) */
-        @media (min-width: 768px) {
-            .hero h1 { font-size: 3rem; }
-            .profile-card { width: fit-content; padding: 50px 80px; }
-            .nav-link { font-size: 16px; margin-left: 10px; }
+        /* ------------------------------------------- */
+        /* [데스크탑 브라우저 스타일] (화면 가로 1024px 이상)  */
+        /* ------------------------------------------- */
+        @media (min-width: 1024px) {
+            header { height: 80px; padding: 0 8%; }
+            .logo { font-size: 28px; }
+            .nav-item { margin-left: 30px; }
+            .nav-link { font-size: 16px; padding: 15px 10px; }
+            
+            /* PC에서는 마우스 올리면 드롭다운이 자연스럽게 열림 */
+            .nav-item:hover .dropdown-content { display: block; }
+            .dropdown-content { top: 75px; min-width: 140px; }
+            .dropdown-content a { font-size: 15px; padding: 15px 20px; }
+            
+            .content-section { padding: 140px 20px 80px; }
+            
+            /* 대화면 메인 배너 스타일 확대 */
+            .hero { height: 85vh; border-radius: 0 0 40px 40px; }
+            .hero h1 { font-size: 3.5rem; margin-bottom: 20px; line-height: 1.3; }
+            .hero p { font-size: 1.3rem; }
+            .btn { font-size: 1.1rem; padding: 18px 50px; margin-top: 35px; }
+            .btn:hover { background: #e67e22; }
+
+            /* 타이틀 및 소개글 확대 */
+            .section-title { font-size: 2.4rem; margin-bottom: 45px; }
+            
+            /* 강사 프로필 PC 레이아웃 최적화 */
+            .profile-card { max-width: 650px; padding: 50px 60px; border-radius: 24px; }
+            .profile-info h3 { font-size: 2.2rem; }
+            .profile-info .sub-title { font-size: 1.05rem; margin-bottom: 30px; }
+            .profile-list li { font-size: 1.15rem; margin-bottom: 16px; }
+            
+            /* 서비스 가로 배열 격자 구조 */
+            .service-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; }
+            .service-item { padding: 50px 30px; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+            .service-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+            .service-item h3 { font-size: 1.6rem; }
+            .service-item p { font-size: 1.1rem; }
+
+            /* 문의 박스 */
+            .contact-box { max-width: 450px; padding: 50px 40px; }
+            .contact-box p { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -142,11 +168,9 @@
 <header>
     <div class="logo" onclick="showSection('home')">JETT</div>
     <nav>
-        <!-- 모바일 터치 이벤트를 처리할 수 있도록 온클릭 수정 -->
         <div class="nav-item" onclick="toggleMenu(event, this)">
             <span class="nav-link">JETT ▾</span>
             <div class="dropdown-content">
-                <!-- 이벤트 버블링(중복 클릭 현상) 방지를 위해 e.stopPropagation() 추가 -->
                 <a onclick="event.stopPropagation(); showSection('jett-intro')">JETT 소개</a>
                 <a onclick="event.stopPropagation(); showSection('about')">교사 소개</a>
             </div>
@@ -172,10 +196,10 @@
 <!-- 2. JETT 소개 섹션 -->
 <section id="jett-intro" class="content-section">
     <h2 class="section-title">About JETT</h2>
-    <div style="max-width: 700px; margin: 0 auto; text-align: center; padding: 0 10px;">
-        <p style="font-size: 1.2rem; line-height: 1.8;">JETT(Johns Elite Teaching Team)는<br><strong>엘리트 영어교사로 구성된 팀</strong>입니다.</p>
-        <p>학습자가 원하는 장소에서 최고의 수업을 제공합니다.</p>
-        <p>최신 AI 교수법과 전통적인 CELTA 기반 교수법을 결합하여 최상의 수업을 제공합니다.</p>
+    <div style="max-width: 750px; margin: 0 auto; text-align: center; padding: 0 15px;">
+        <p style="font-size: 1.3rem; line-height: 1.8; margin-bottom: 20px;">JETT(Johns Elite Teaching Team)는<br><strong>엘리트 영어교사로 구성된 팀</strong>입니다.</p>
+        <p style="font-size: 1.05rem; color: #555;">학습자가 원하는 장소에서 최고의 수업을 제공합니다.</p>
+        <p style="font-size: 1.05rem; color: #555;">최신 AI 교수법과 전통적인 CELTA 기반 교수법을 결합하여 최상의 수업을 제공합니다.</p>
     </div>
 </section>
 
@@ -227,32 +251,26 @@
 <script>
     // 섹션 전환 함수
     function showSection(id) {
-        // 모든 섹션 숨기기
         const sections = document.querySelectorAll('.content-section');
         sections.forEach(section => {
             section.classList.remove('active');
         });
         
-        // 대상 섹션 보이기
         const target = document.getElementById(id);
         if (target) {
             target.classList.add('active');
         }
         
-        // 메뉴 닫기 (모바일용)
         const activeMenus = document.querySelectorAll('.nav-item.active-menu');
         activeMenus.forEach(menu => menu.classList.remove('active-menu'));
 
-        // 최상단으로 스크롤
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 모바일 터치용 메뉴 토글 (이벤트 객체 추가하여 오작동 방지)
+    // 모바일 터치용 메뉴 토글
     function toggleMenu(event, elem) {
         if (window.innerWidth < 1024) {
-            // 안쪽 링크를 클릭했을 때는 토글이 다시 작동하지 않도록 방어
             if (event.target.tagName === 'A') return;
-            
             event.stopPropagation();
             elem.classList.toggle('active-menu');
         }
