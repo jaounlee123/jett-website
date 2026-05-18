@@ -107,12 +107,25 @@
             letter-spacing: -0.03em;
         }
 
+        /* [스타일 추가] HTML 내용을 수정하지 않고 p-sub 요소 앞에 체크마크 생성 */
         .intro-wrapper .p-sub { 
             font-size: 0.95rem; 
             color: #555; 
-            margin: 14px 0; 
+            margin: 14px auto; 
             word-break: keep-all;
             line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* 모바일 화면 중앙 정렬 */
+            width: max-content;
+            max-width: 100%;
+        }
+        .intro-wrapper .p-sub::before {
+            content: '✓';
+            color: #f39c12;
+            font-weight: bold;
+            margin-right: 8px;
+            flex-shrink: 0;
         }
 
         /* 교사 소개 프로필 카드 - 글씨 길이에 맞춤 및 중앙 정렬 */
@@ -190,7 +203,9 @@
             .section-title { font-size: 2.4rem; margin-bottom: 45px; }
             
             .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
-            .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px 0; }
+            
+            /* PC 해상도 마진 설정 유지 */
+            .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
             
             .profile-card { padding: 50px 70px; border-radius: 24px; }
             .profile-info h3 { font-size: 2.2rem; }
