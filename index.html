@@ -173,7 +173,7 @@
         .contact-box a { color: #1a2a6c; text-decoration: none; font-weight: bold; border-bottom: 2px solid #f39c12; padding-bottom: 2px; }
 
         /* ------------------------------------------- */
-        /* 공지사항 스타일                             */
+        /* 공지사항 스타일 (모바일 줄바꿈 개선 버전)       */
         /* ------------------------------------------- */
         .board-wrapper { max-width: 800px; margin: 0 auto; background: #fff; padding: 10px; }
         .board-header { display: flex; justify-content: flex-end; margin-bottom: 15px; }
@@ -181,12 +181,26 @@
         .btn-sm.btn-secondary { background: #eee; color: #333; margin-right: 8px; }
         
         /* 테이블 스타일 */
-        .board-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        .board-table th, .board-table td { padding: 12px 10px; border-bottom: 1px solid #eee; }
+        .board-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; table-layout: fixed; }
+        .board-table th, .board-table td { padding: 12px 6px; border-bottom: 1px solid #eee; vertical-align: middle; }
         .board-table th { background: #f8f9fa; color: #1a2a6c; font-weight: 700; }
-        .board-table td.title { color: #333; cursor: pointer; font-weight: 500; }
+        
+        /* 열 너비 고정 균형 분배 */
+        .col-num { width: 45px; text-align: center; }
+        .col-date { width: 75px; text-align: center; } /* 모바일 가독성 확보 폭 */
+        
+        .board-table td.center { text-align: center; color: #888; font-size: 0.85rem; white-space: nowrap; }
+        .board-table td.date-cell { white-space: nowrap; letter-spacing: -0.02em; } /* 글자 붙여서 한 줄 보장 */
+        
+        .board-table td.title { 
+            color: #333; 
+            cursor: pointer; 
+            font-weight: 500; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            white-space: nowrap; /* 제목이 너무 길면 자르기 */
+        }
         .board-table td.title:hover { text-decoration: underline; color: #f39c12; }
-        .board-table .center { text-align: center; color: #888; }
         .no-data { text-align: center; padding: 40px 0; color: #999; }
 
         /* 글쓰기 폼 스타일 */
@@ -257,6 +271,11 @@
             .board-table { font-size: 1rem; }
             .board-table th, .board-table td { padding: 16px 15px; }
             .btn-sm { font-size: 0.95rem; padding: 10px 24px; }
+            
+            /* 데스크탑에서는 날짜칸을 원래대로 널널하게 */
+            .col-num { width: 70px; }
+            .col-date { width: 130px; }
+            .board-table td.center { font-size: 1rem; }
         }
     </style>
 </head>
@@ -275,7 +294,6 @@
         <div class="nav-item">
             <a class="nav-link" onclick="showSection('service')">서비스</a>
         </div>
-        <!-- [추가된 커뮤니티 메뉴] -->
         <div class="nav-item" onclick="toggleMenu(event, this)">
             <span class="nav-link">커뮤니티 ▾</span>
             <div class="dropdown-content">
@@ -341,12 +359,10 @@
     </div>
 </section>
 
-<!-- [추가된 공지사항 섹션] -->
 <section id="notice" class="content-section">
     <h2 class="section-title">Notice</h2>
     <div class="board-wrapper">
         
-        <!-- 글쓰기 폼 인터페이스 -->
         <div id="writeForm" class="write-form">
             <div class="form-group">
                 <label for="postTitle">공지 제목</label>
@@ -366,17 +382,16 @@
             <button id="btnToggleWrite" class="btn-sm" onclick="toggleWriteForm(true)">공지작성</button>
         </div>
 
-        <!-- 공지 목록 테이블 -->
         <table class="board-table">
-            <thead id="boardHeader">
+            <thead>
                 <tr>
-                    <th style="width: 60px; text-align: center;">번호</th>
+                    <th class="col-num">번호</th>
                     <th>제목</th>
-                    <th style="width: 110px; text-align: center;">작성일</th>
+                    <th class="col-date">작성일</th>
                 </tr>
             </thead>
             <tbody id="boardList">
-                <!-- 자바스크립트로 동적 렌더링 -->
+                <!-- 자바스크립트 출력 영역 -->
             </tbody>
         </table>
     </div>
@@ -391,12 +406,11 @@
     </div>
 </section>
 
-<!-- [추가된 공지사항 상세보기 모달 팝업] -->
 <div id="postModal" class="modal">
     <div class="modal-content">
         <h3 id="modalTitle" class="modal-title">공지사항 제목</h3>
-        <div id="modalDate" class="modal-date">2026-05-20</div>
-        <div id="modalBody" class="modal-body">공지사항 내용이 여기에 들어갑니다.</div>
+        <div id="modalDate" class="modal-date">26-05-20</div>
+        <div id="modalBody" class="modal-body">공지사항 내용</div>
         <div class="modal-footer">
             <button id="btnDeletePost" class="btn-sm btn-secondary" style="background:#e74c3c; color:#fff; display:none;">삭제</button>
             <button class="btn-sm" onclick="closeModal()">닫기</button>
@@ -405,60 +419,45 @@
 </div>
 
 <script>
-    // 관리자 기능 비밀번호 (임시 설정: 1234)
     const ADMIN_PASSWORD = "1234";
 
-    // 데이터 저장용 배열 초기화 (로컬스토리지 연동)
+    // 기본 데이터 포맷 변경 (모바일을 위해 YY-MM-DD 형태로 기본값 제공)
     let notices = JSON.parse(localStorage.getItem('jett_notices')) || [
         {
             id: 1,
             title: "JETT 프리미엄 1:1 맞춤형 레슨 오픈 안내",
             content: "안녕하세요, JETT입니다.\n\n학습자가 원하는 공간 어디든 찾아가 최고의 교육을 제공하는 프리미엄 1:1 맞춤형 수업이 정식 론칭되었습니다.\n\n자세한 상담 및 테스트 신청은 문의 페이지를 이용해 주세요.\n감사합니다.",
-            date: "2026-05-20"
+            date: "26-05-20"
         }
     ];
 
-    // 섹션 전환 함수
     function showSection(id) {
         const sections = document.querySelectorAll('.content-section');
-        sections.forEach(section => {
-            section.classList.remove('active');
-        });
+        sections.forEach(section => { section.classList.remove('active'); });
         
         const target = document.getElementById(id);
-        if (target) {
-            target.classList.add('active');
-        }
+        if (target) { target.classList.add('active'); }
         
         const activeMenus = document.querySelectorAll('.nav-item.active-menu');
         activeMenus.forEach(menu => menu.classList.remove('active-menu'));
 
-        // 공지사항 메뉴 클릭 시 리스트 갱신 및 폼 닫기
         if(id === 'notice') {
             toggleWriteForm(false);
             renderBoard();
         }
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 모바일 터치용 메뉴 토글
     function toggleMenu(event, elem) {
         if (window.innerWidth < 1024) {
             if (event.target.tagName === 'A') return;
             event.stopPropagation();
-            
-            // 다른 켜져 있는 메뉴가 있다면 닫아주기
             const activeMenus = document.querySelectorAll('.nav-item.active-menu');
-            activeMenus.forEach(menu => {
-                if(menu !== elem) menu.classList.remove('active-menu');
-            });
-
+            activeMenus.forEach(menu => { if(menu !== elem) menu.classList.remove('active-menu'); });
             elem.classList.toggle('active-menu');
         }
     }
 
-    // 메뉴 바깥 클릭 시 드롭다운 닫기
     window.addEventListener('click', function(e) {
         if (!e.target.closest('.nav-item')) {
             const activeMenus = document.querySelectorAll('.nav-item.active-menu');
@@ -466,11 +465,7 @@
         }
     });
 
-    // ------------------------------------------- 
-    // 공지사항 비즈니스 로직 
-    // ------------------------------------------- 
-
-    // 게시판 리스트 그리기
+    // 게시판 렌더링 수정
     function renderBoard() {
         const listContainer = document.getElementById('boardList');
         listContainer.innerHTML = '';
@@ -480,7 +475,6 @@
             return;
         }
 
-        // 최신 글이 위로 오도록 역순 출력
         const reversedNotices = [...notices].reverse();
 
         reversedNotices.forEach((post, index) => {
@@ -496,7 +490,7 @@
             titleTd.onclick = () => viewPost(post.id);
             
             const dateTd = document.createElement('td');
-            dateTd.className = 'center';
+            dateTd.className = 'center date-cell'; // 전용 클래스 적용
             dateTd.textContent = post.date;
 
             tr.appendChild(numTd);
@@ -506,12 +500,10 @@
         });
     }
 
-    // 글쓰기 폼 켜고 끄기
     function toggleWriteForm(show) {
         const form = document.getElementById('writeForm');
         const btn = document.getElementById('btnToggleWrite');
         if(show) {
-            // 관리자 확인 절차 추가
             const pwd = prompt("공지사항 작성을 위해 관리자 비밀번호를 입력하세요.");
             if(pwd !== ADMIN_PASSWORD) {
                 if(pwd !== null) alert("비밀번호가 일치하지 않습니다.");
@@ -527,7 +519,7 @@
         }
     }
 
-    // 새 공지 저장하기
+    // 날짜 생성 포맷 변경 (2026 -> 26 두 자리로 압축 보관)
     function savePost() {
         const title = document.getElementById('postTitle').value.trim();
         const content = document.getElementById('postContent').value.trim();
@@ -538,13 +530,13 @@
         }
 
         const today = new Date();
-        const yyyy = today.getFullYear();
+        const yy = String(today.getFullYear()).slice(-2); // 뒤의 두 자리만 추출
         const mm = String(today.getMonth() + 1).padStart(2, '0');
         const dd = String(today.getDate()).padStart(2, '0');
-        const dateString = `${yyyy}-${mm}-${dd}`;
+        const dateString = `${yy}-${mm}-${dd}`;
 
         const newPost = {
-            id: Date.now(), // 고유 ID값 확보
+            id: Date.now(),
             title: title,
             content: content,
             date: dateString
@@ -558,7 +550,6 @@
         renderBoard();
     }
 
-    // 공지 상세보기 팝업 열기
     function viewPost(id) {
         const post = notices.find(item => item.id === id);
         if(!post) return;
@@ -567,7 +558,6 @@
         document.getElementById('modalDate').textContent = `작성일: ${post.date}`;
         document.getElementById('modalBody').textContent = post.content;
         
-        // 삭제 버튼 이벤트 연결 및 노출 (관리자용 암호 확인 후 삭제 가능하도록)
         const delBtn = document.getElementById('btnDeletePost');
         delBtn.style.display = 'block';
         delBtn.onclick = () => deletePost(post.id);
@@ -575,12 +565,14 @@
         document.getElementById('postModal').style.display = 'flex';
     }
 
-    // 공지 팝업 닫기
+    document.getElementById('postModal').addEventListener('click', function(e) {
+        if(e.target === this) closeModal();
+    });
+
     function closeModal() {
         document.getElementById('postModal').style.display = 'none';
     }
 
-    // 공지 삭제하기
     function deletePost(id) {
         const pwd = prompt("게시글을 삭제하시려면 관리자 비밀번호를 입력하세요.");
         if(pwd !== ADMIN_PASSWORD) {
@@ -596,7 +588,6 @@
         }
     }
 
-    // 초기 실행 시 게시판 리스트 로드
     renderBoard();
 </script>
 
