@@ -62,7 +62,7 @@
             transition: all 0.4s ease;
         }
         .content-section.active { 
-            display: block !important; 
+            display: block; 
             opacity: 1; 
             transform: translateY(0);
         }
@@ -91,7 +91,6 @@
             font-size: 1.15rem; 
             line-height: 1.75; 
             margin-bottom: 30px; 
-            word-break: keep-all;
             letter-spacing: -0.03em;
         }
 
@@ -99,7 +98,6 @@
             font-size: 0.95rem; 
             color: #555; 
             margin: 14px auto; 
-            word-break: keep-all;
             line-height: 1.6;
             display: flex;
             align-items: center;
@@ -128,9 +126,7 @@
             flex-direction: column;
             align-items: center;
         }
-        .profile-info {
-            width: 100%;
-        }
+        .profile-info { width: 100%; }
         .profile-info h3 { font-size: 1.5rem; margin: 0 0 5px 0; color: #1a2a6c; text-align: center; }
         .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 20px; display: block; font-size: 0.85rem; text-align: center; }
         
@@ -272,104 +268,105 @@
     </nav>
 </header>
 
-<section id="home" class="content-section active">
-    <div class="hero">
-        <h1>당신이 있는 곳이<br>&nbsp;강의실이 됩니다</h1>
-        <p>영어 교육 전문가들의 맞춤형 프리미엄 수업</p>
-        <button class="btn" onclick="showSection('contact')">무료 상담 신청하기</button>
-    </div>
-</section>
+<main>
+    <section id="home" class="content-section active">
+        <div class="hero">
+            <h1>당신이 있는 곳이<br>&nbsp;강의실이 됩니다</h1>
+            <p>영어 교육 전문가들의 맞춤형 프리미엄 수업</p>
+            <button class="btn" onclick="showSection('contact')">무료 상담 신청하기</button>
+        </div>
+    </section>
 
-<section id="jett-intro" class="content-section">
-    <h2 class="section-title">About JETT</h2>
-    <div class="intro-wrapper">
-        <p class="p-main">
-            JETT(Johns Elite Teaching Team)는<br>
-            <strong>엘리트 영어교사</strong>로 구성된 팀입니다.
-        </p>
-        <p class="p-sub">학습자가 원하는 장소에서 최고의 수업을 제공합니다.</p>
-        <p class="p-sub">지속적인 교수법 연구로 최상의 수업을 제공합니다.</p>
-    </div>
-</section>
+    <section id="jett-intro" class="content-section">
+        <h2 class="section-title">About JETT</h2>
+        <div class="intro-wrapper">
+            <p class="p-main">
+                JETT(Johns Elite Teaching Team)는<br>
+                <strong>엘리트 영어교사</strong>로 구성된 팀입니다.
+            </p>
+            <p class="p-sub">학습자가 원하는 장소에서 최고의 수업을 제공합니다.</p>
+            <p class="p-sub">지속적인 교수법 연구로 최상의 수업을 제공합니다.</p>
+        </div>
+    </section>
 
-<section id="about" class="content-section">
-    <h2 class="section-title">Instructor Profile</h2>
-    <div class="profile-card">
-        <div class="profile-info">
-            <h3>John Lee</h3>
-            <span class="sub-title">JETT 대표 인스트럭터</span>
+    <section id="about" class="content-section">
+        <h2 class="section-title">Instructor Profile</h2>
+        <div class="profile-card">
+            <div class="profile-info">
+                <h3>John Lee</h3>
+                <span class="sub-title">JETT 대표 인스트럭터</span>
+                
+                <ul class="profile-list">
+                    <li>JETT 대표</li>
+                    <li>교육청 정식 등록</li>
+                    <li>CELTA 자격증 소지 (TESOL 상위급)</li>
+                    <li>케임브리지 대학교 인증 교사</li>
+                    <li>AI 응용 교수법 연구</li>
+                    <li>대한민국 육군 병장 만기 전역</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="service" class="content-section">
+        <h2 class="section-title">Our Services</h2>
+        <div class="service-grid">
+            <div class="service-item">
+                <h3>1:1 레슨</h3>
+                <p>프리미엄 맞춤 수업</p>
+            </div>
+            <div class="service-item">
+                <h3>그룹 레슨</h3>
+                <p>시스템화된 그룹 수업</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="notice" class="content-section">
+        <h2 class="section-title">Notice</h2>
+        <div class="board-wrapper">
             
-            <ul class="profile-list">
-                <li>JETT 대표</li>
-                <li>교육청 정식 등록</li>
-                <li>CELTA 자격증 소지 (TESOL 상위급)</li>
-                <li>케임브리지 대학교 인증 교사</li>
-                <li>AI 응용 교수법 연구</li>
-                <li>대한민국 육군 병장 만기 전역</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<section id="service" class="content-section">
-    <h2 class="section-title">Our Services</h2>
-    <div class="service-grid">
-        <div class="service-item">
-            <h3>1:1 레슨</h3>
-            <p>프리미엄 맞춤 수업</p>
-        </div>
-        <div class="service-item">
-            <h3>그룹 레슨</h3>
-            <p>시스템화된 그룹 수업</p>
-        </div>
-    </div>
-</section>
-
-<section id="notice" class="content-section">
-    <h2 class="section-title">Notice</h2>
-    <div class="board-wrapper">
-        
-        <div id="writeForm" class="write-form">
-            <div class="form-group">
-                <label id="formTitleLabel" for="postTitle">공지 제목</label>
-                <input type="text" id="postTitle" class="form-control" placeholder="제목을 입력하세요">
+            <div id="writeForm" class="write-form">
+                <div class="form-group">
+                    <label id="formTitleLabel" for="postTitle">공지 제목</label>
+                    <input type="text" id="postTitle" class="form-control" placeholder="제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="postContent">공지 내용</label>
+                    <textarea id="postContent" class="form-control" rows="8" placeholder="공지할 내용을 입력하세요"></textarea>
+                </div>
+                <div style="text-align: right;">
+                    <button class="btn-sm btn-secondary" onclick="cancelWriteForm()">취소</button>
+                    <button id="btnSave" class="btn-sm" onclick="savePost()">등록하기</button>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="postContent">공지 내용</label>
-                <textarea id="postContent" class="form-control" rows="8" placeholder="공지할 내용을 입력하세요"></textarea>
+
+            <div class="board-header">
+                <button id="btnToggleWrite" class="btn-sm" onclick="openWriteForm()">공지작성</button>
             </div>
-            <div style="text-align: right;">
-                <button class="btn-sm btn-secondary" onclick="cancelWriteForm()">취소</button>
-                <button id="btnSave" class="btn-sm" onclick="savePost()">등록하기</button>
-            </div>
+
+            <table class="board-table">
+                <thead>
+                    <tr>
+                        <th class="col-num">번호</th>
+                        <th>제목</th>
+                        <th class="col-date">작성일</th>
+                    </tr>
+                </thead>
+                <tbody id="boardList"></tbody>
+            </table>
         </div>
+    </section>
 
-        <div class="board-header">
-            <button id="btnToggleWrite" class="btn-sm" onclick="openWriteForm()">공지작성</button>
+    <section id="contact" class="content-section" style="text-align: center;">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-box">
+            <p>전화<br><strong><a href="tel:010-5861-7928">010-5861-7928</a></strong></p>
+            <p>이메일<br><strong><a href="mailto:jett_biz@naver.com">jett_biz@naver.com</a></strong></p>
+            <p style="color: #888; font-size: 0.85rem; margin-top: 30px;">* 모든 상담은 예약제로 운영됩니다.</p>
         </div>
-
-        <table class="board-table">
-            <thead>
-                <tr>
-                    <th class="col-num">번호</th>
-                    <th>제목</th>
-                    <th class="col-date">작성일</th>
-                </tr>
-            </thead>
-            <tbody id="boardList">
-                </tbody>
-        </table>
-    </div>
-</section>
-
-<section id="contact" class="content-section" style="text-align: center;">
-    <h2 class="section-title">Contact Us</h2>
-    <div class="contact-box">
-        <p>전화<br><strong><a href="tel:010-5861-7928">010-5861-7928</a></strong></p>
-        <p>이메일<br><strong><a href="mailto:jett_biz@naver.com">jett_biz@naver.com</a></strong></p>
-        <p style="color: #888; font-size: 0.85rem; margin-top: 30px;">* 모든 상담은 예약제로 운영됩니다.</p>
-    </div>
-</section>
+    </section>
+</main>
 
 <div id="postModal" class="modal">
     <div class="modal-content">
@@ -385,27 +382,20 @@
 </div>
 
 <script>
-    // 변경 요청하신 비밀번호로 업데이트 되었습니다.
     const ADMIN_PASSWORD = "13579Lee@";
 
     let isEditMode = false;
     let editPostId = null;
 
-    // ==========================================
-    // 여기서부터 공지사항 데이터가 소스코드에 영구 저장됩니다.
-    // 웹페이지 관리자 기능으로 수정/삭제 시 팝업에 뜨는 새 코드를 이 영역에 덮어씌우세요.
-    // ==========================================
-let notices = [
+    // 초기 ID 규칙을 타임스탬프 기반 고유 숫자로 통일했습니다.
+    let notices = [
         {
-                "id": 1,
-                "title": "JETT 오픈 준비 중입니다.",
-                "content": "안녕하세요, JETT입니다!\n\n현재 최고의 교육 프로그램을 위해 설레는 마음으로 오픈을 준비하고 있습니다. ^.^\n\n열심히 준비해서 곧 찾아뵙겠습니다!\n\n감사합니다.\n\nJETT 대표 드림",
-                "date": "26-05-20"
+            "id": 1716161600000, 
+            "title": "JETT 오픈 준비 중입니다.",
+            "content": "안녕하세요, JETT입니다!\n\n현재 최고의 교육 프로그램을 위해 설레는 마음으로 오픈을 준비하고 있습니다. ^.^\n\n열심히 준비해서 곧 찾아뵙겠습니다!\n\n감사합니다.\n\nJETT 대표 드림",
+            "date": "26-05-20"
         }
-];
-    // ==========================================
-    // 여기까지
-    // ==========================================
+    ];
 
     function showSection(id) {
         const sections = document.querySelectorAll('.content-section');
@@ -526,15 +516,6 @@ let notices = [
         document.getElementById('btnDeletePost').style.display = 'none';
         
         document.getElementById('postModal').style.display = 'flex';
-        
-        const closeBtn = document.querySelector('#postModal window, .modal-footer button');
-        const standardClose = () => {
-            document.getElementById('btnEditPost').style.display = 'inline-block';
-            document.getElementById('btnDeletePost').style.display = 'inline-block';
-        };
-        document.getElementById('postModal').addEventListener('click', function restore(e){
-            if(e.target === this) { standardClose(); this.removeEventListener('click', restore); }
-        });
     }
 
     function savePost() {
