@@ -34,7 +34,7 @@
             position: absolute;
             background-color: #fff;
             min-width: 120px;
-            box-shadow: 0px 8px 16 rgba(0,0,0,0.1);
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
             border-radius: 8px;
             top: 60px; 
             right: 0;
@@ -385,7 +385,8 @@
 </div>
 
 <script>
-    const ADMIN_PASSWORD = "1234";
+    // 변경 요청하신 비밀번호로 업데이트 되었습니다.
+    const ADMIN_PASSWORD = "13579Lee@";
 
     let isEditMode = false;
     let editPostId = null;
@@ -503,7 +504,6 @@
     function generateNewCode(updatedNotices) {
         const codeString = `let notices = ${JSON.stringify(updatedNotices, null, 8)};`;
         
-        // 프롬프트 창이나 알림창으로 새로운 코드를 출력하여 복사할 수 있게 유도
         const textarea = document.createElement('textarea');
         textarea.value = codeString;
         textarea.style.width = '100%';
@@ -517,19 +517,16 @@
                                <p style="font-size:12px; color:#666; margin:5px 0 15px 0;">아래 텍스트 상자의 코드를 전체 복사하여, HTML 파일 하단의 고정 데이터 영역에 덮어씌운 후 서버에 업로드하세요.</p>`;
         container.appendChild(textarea);
 
-        // 새로운 모달 형식으로 띄우거나, 모달 바디를 임시 변경하여 노출
         document.getElementById('modalTitle').textContent = "🎉 변경된 소스코드 생성 완료";
         document.getElementById('modalDate').textContent = "";
         document.getElementById('modalBody').innerHTML = "";
         document.getElementById('modalBody').appendChild(container);
         
-        // 수정/삭제 버튼 숨기기
         document.getElementById('btnEditPost').style.display = 'none';
         document.getElementById('btnDeletePost').style.display = 'none';
         
         document.getElementById('postModal').style.display = 'flex';
         
-        // 모달을 닫을 때 다시 원상 복구 시키는 이벤트 추가
         const closeBtn = document.querySelector('#postModal window, .modal-footer button');
         const standardClose = () => {
             document.getElementById('btnEditPost').style.display = 'inline-block';
