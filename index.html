@@ -67,7 +67,6 @@
             transform: translateY(0);
         }
 
-        /* 💡 브라우저 보안 차단을 우회하기 위해 안정적인 상대 경로(image/...)로 수정했습니다. */
         .hero { 
             height: 80vh; 
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image/Gemini_Generated_Image_gp9vwrgp9vwrgp9v.png'); 
@@ -114,21 +113,59 @@
             flex-shrink: 0;
         }
 
+        /* ─── [변경 및 추가] 교사 소개 가로 스택 카드 레이아웃 스타일 ─── */
+        .profile-container {
+            display: flex;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 10px 5px 25px 5px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        /* 스크롤바 디자인 숨김/최적화 */
+        .profile-container::-webkit-scrollbar { height: 6px; }
+        .profile-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .profile-container::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+        .profile-container::-webkit-scrollbar-thumb:hover { background: #ccc; }
+
         .profile-card {
-            width: max-content;
-            max-width: 100%;
-            margin: 0 auto; 
+            flex: 0 0 290px;
+            scroll-snap-align: center;
             background: #f9f9f9; 
-            padding: 30px 35px; 
-            border-radius: 16px;
+            padding: 35px 25px; 
+            border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.04);
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            border: 1px solid #eee;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        
+        /* 모집중 카드 전용 스타일 */
+        .profile-card.recruiting {
+            background: #fff;
+            border: 2px dashed #d1d8e0;
+            justify-content: center;
+            box-shadow: none;
+        }
+        .recruiting-icon {
+            font-size: 2.5rem;
+            color: #f39c12;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.9; }
+        }
+
         .profile-info { width: 100%; }
-        .profile-info h3 { font-size: 1.5rem; margin: 0 0 5px 0; color: #1a2a6c; text-align: center; }
+        .profile-info h3 { font-size: 1.4rem; margin: 0 0 5px 0; color: #1a2a6c; text-align: center; }
         .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 20px; display: block; font-size: 0.85rem; text-align: center; }
         
         .profile-list { 
@@ -138,8 +175,9 @@
             text-align: left;
             display: inline-block;
         }
-        .profile-list li { margin-bottom: 12px; font-size: 0.95rem; display: flex; align-items: flex-start; }
+        .profile-list li { margin-bottom: 10px; font-size: 0.9rem; display: flex; align-items: flex-start; line-height: 1.4; }
         .profile-list li::before { content: '✓'; color: #f39c12; font-weight: bold; margin-right: 8px; flex-shrink: 0; }
+        /* ────────────────────────────────────────────────────────────── */
 
         .service-grid { display: grid; grid-template-columns: 1fr; gap: 15px; max-width: 500px; margin: 0 auto; }
         .service-item { padding: 30px 20px; background: #f9f9f9; border-radius: 12px; text-align: center; border: 1px solid #eee; }
@@ -217,10 +255,26 @@
             .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
             .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
             
-            .profile-card { padding: 50px 70px; border-radius: 24px; }
-            .profile-info h3 { font-size: 2.2rem; }
-            .profile-info .sub-title { font-size: 1.05rem; margin-bottom: 30px; }
-            .profile-list li { font-size: 1.15rem; margin-bottom: 16px; }
+            /* ─── [변경] PC 화면에서의 카드 레이아웃 최적화 ─── */
+            .profile-container { 
+                justify-content: center; 
+                gap: 30px;
+                overflow-x: visible;
+                padding-bottom: 10px;
+            }
+            .profile-card { 
+                flex: 0 1 350px; 
+                padding: 45px 35px; 
+                border-radius: 24px; 
+            }
+            .profile-card:hover { 
+                transform: translateY(-8px); 
+                box-shadow: 0 12px 30px rgba(26, 42, 108, 0.08); 
+            }
+            .profile-info h3 { font-size: 1.8rem; }
+            .profile-info .sub-title { font-size: 0.95rem; margin-bottom: 25px; }
+            .profile-list li { font-size: 1.05rem; margin-bottom: 14px; }
+            /* ────────────────────────────────────────────────── */
             
             .service-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; }
             .service-item { padding: 50px 30px; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
@@ -292,23 +346,42 @@
 
     <section id="about" class="content-section">
         <h2 class="section-title">Instructor Profile</h2>
-        <div class="profile-card">
-            <div class="profile-info">
-                <h3>John Lee</h3>
-                <span class="sub-title">JETT 대표 인스트럭터</span>
-                
-                <ul class="profile-list">
-                    <li>JETT 대표</li>
-                    <li>교육청 정식 등록</li>
-                    <li>CELTA 자격증 소지 (TESOL 상위급)</li>
-                    <li>케임브리지 대학교 인증 교사</li>
-                    <li>AI 응용 교수법 연구</li>
-                    <li>대한민국 육군 병장 만기 전역</li>
-                </ul>
+        <div class="profile-container">
+            
+            <div class="profile-card">
+                <div class="profile-info">
+                    <h3>John Lee</h3>
+                    <span class="sub-title">JETT 대표 인스트럭터</span>
+                    
+                    <ul class="profile-list">
+                        <li>JETT 대표</li>
+                        <li>교육청 정식 등록</li>
+                        <li>CELTA 자격증 소지 (TESOL 상위급)</li>
+                        <li>케임브리지 대학교 인증 교사</li>
+                        <li>AI 응용 교수법 연구</li>
+                        <li>대한민국 육군 병장 만기 전역</li>
+                    </ul>
+                </div>
             </div>
+
+            <div class="profile-card recruiting">
+                <div class="profile-info">
+                    <div class="recruiting-icon">✉</div>
+                    <h3>Elite Instructor</h3>
+                    <span class="sub-title" style="color: #888;">추가 인스트럭터 초빙 중</span>
+                    
+                    <ul class="profile-list" style="color: #666;">
+                        <li>최고의 교수 역량을 지닌 인재</li>
+                        <li>검증된 교육 자격 요건 검토 중</li>
+                        <li>JETT 교육 철학 연수 예정</li>
+                        <li>1:1 및 프리미엄 매칭 전문</li>
+                    </ul>
+                    <p style="font-size: 0.85rem; color:#f39c12; margin-top:20px; font-weight:bold;">Join Our Elite Team!</p>
+                </div>
+            </div>
+
         </div>
     </section>
-
     <section id="service" class="content-section">
         <h2 class="section-title">Our Services</h2>
         <div class="service-grid">
