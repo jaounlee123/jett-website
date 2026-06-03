@@ -113,7 +113,7 @@
             flex-shrink: 0;
         }
 
-        /* ─── [변경] 사진 스타일 기반의 평행 겹침(스택) 레이아웃 ─── */
+        /* ─── [수정] 대표 프로필 최상단 노출 포커 카드 레이아웃 ─── */
         .profile-container {
             display: flex;
             justify-content: center;
@@ -121,7 +121,7 @@
             max-width: 100%;
             margin: 40px auto 20px;
             padding: 40px 20px;
-            height: 460px; /* 카드가 튀어나올 상단 여백 공간 확보 */
+            height: 460px;
         }
 
         .profile-card {
@@ -131,7 +131,6 @@
             background: #f9f9f9; 
             padding: 40px 25px; 
             border-radius: 20px;
-            box-shadow: -8px 0 24px rgba(0,0,0,0.08); /* 사진처럼 왼쪽 그림자 강조 */
             text-align: center;
             display: flex;
             flex-direction: column;
@@ -140,19 +139,21 @@
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
         }
         
-        /* 사진 속 카드들처럼 전혀 기울이지 않고 평행하게 포개지도록 마진 설정 */
+        /* 대표님 카드가 모집중 카드 위로 쌓이도록 마진 및 z-index 완전 역배치 */
         .card-1 {
-            z-index: 10;
+            z-index: 20; /* 대표님 프로필을 최상위로 설정 */
+            box-shadow: 8px 0 24px rgba(0,0,0,0.1); /* 위에 쌓이므로 오른쪽 그림자 강조 */
         }
         .card-2 {
-            z-index: 20;
-            margin-left: -210px; /* 카드의 오른쪽 단면 위주로 보이게 많이 포개는 마진 */
+            z-index: 10; /* 모집중 카드를 아래로 배치 */
+            margin-left: -80px; /* 대표님 카드 아래로 자연스럽게 파고들도록 마진 설정 */
+            box-shadow: -4px 0 16px rgba(0,0,0,0.04);
         }
 
-        /* 마우스를 올렸을 때 정위치에서 위로 슥 빠져나오는 인터랙션 */
+        /* 마우스를 올렸을 때 위로 빠져나오는 인터랙션 */
         .profile-card:hover {
-            z-index: 100 !important; /* 포개진 하위 카드보다 무조건 위로 노출 */
-            transform: translateY(-40px); /* 회전 없이 깔끔하게 수직 상승 */
+            z-index: 100 !important; 
+            transform: translateY(-40px); 
             box-shadow: 0 15px 35px rgba(26, 42, 108, 0.15);
             background: #fff;
         }
@@ -265,7 +266,7 @@
             .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
             .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
             
-            /* ─── [변경] 대형 화면 기준 스택 세부 조정 ─── */
+            /* ─── [변경] PC 고해상도 환경에 맞춘 스택 배치 세부 조정 ─── */
             .profile-container { 
                 height: 500px;
                 margin-top: 50px;
@@ -274,7 +275,7 @@
                 width: 320px;
                 height: 440px;
             }
-            .card-2 { margin-left: -230px; } /* PC 고해상도 환경에 맞춘 최적화 포개짐 */
+            .card-2 { margin-left: -90px; } /* PC 화면 비율에 맞춘 겹침 간격 */
             
             .profile-info h3 { font-size: 1.6rem; }
             .profile-info .sub-title { font-size: 0.9rem; }
@@ -349,10 +350,12 @@
         </div>
     </section>
 
+    <!-- ─── [변경 완료] 대표 프로필이 무조건 최상단에 오는 카드 섹션 ─── -->
     <section id="about" class="content-section">
         <h2 class="section-title">Instructor Profile</h2>
         <div class="profile-container">
             
+            <!-- 첫 번째 카드: John Lee 대표 프로필 (z-index가 높아 제일 위에 위치) -->
             <div class="profile-card card-1">
                 <div class="profile-info">
                     <h3>John Lee</h3>
@@ -369,6 +372,7 @@
                 </div>
             </div>
 
+            <!-- 두 번째 카드: 신규 모집 카드 (대표님 카드 아래 깔리며 오른쪽으로 포개짐) -->
             <div class="profile-card card-2 recruiting">
                 <div class="profile-info">
                     <div class="recruiting-icon">✉</div>
@@ -387,6 +391,8 @@
 
         </div>
     </section>
+    <!-- ────────────────────────────────────────────────────────────── -->
+
     <section id="service" class="content-section">
         <h2 class="section-title">Our Services</h2>
         <div class="service-grid">
@@ -582,7 +588,7 @@
 
         const container = document.createElement('div');
         container.innerHTML = `<p style="font-weight:bold; color:#e74c3c; margin:0;">⚠️ 모바일 반영을 위한 필수 단계!</p>
-                               <p style="font-size:12px; color:#666; margin:5px 0 15px 0;">아래 텍스트 상자의 코드를 전체 복사하여, HTML 파일 하단의 고정 데이터 영역에 덮어씌운 후 서버에 업로드하세요.</p>`;
+                               <p style="font-size:12px; color:#666; margin:5px 0 15px 0;">아래 텍스트 상자의 코드를 전체 복사하여, HTML 파일 하단의 고정 데이터 영역에 덮어텨운 후 서버에 업로드하세요.</p>`;
         container.appendChild(textarea);
 
         document.getElementById('modalTitle').textContent = "🎉 변경된 소스코드 생성 완료";
