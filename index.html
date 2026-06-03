@@ -2,1445 +2,871 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>JETT(Johns Elite Teaching Team) - 엘리트 영어교사로 구성된 팀</title>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-
-        :root {
-            --navy: #1a2a6c;
-            --orange: #f39c12;
-            --orange-dark: #e67e22;
-            --text: #333;
-            --muted: #6b7280;
-            --line: #e9edf3;
-            --soft: #f7f8fb;
-            --white: #fff;
-            --shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; font-family: 'Pretendard', sans-serif; line-height: 1.6; color: #333; word-break: keep-all; }
+        
+        header { 
+            background: #fff; 
+            padding: 0 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid #eee; 
+            position: fixed; 
+            width: 100%; 
+            height: 60px;
+            top: 0; 
+            z-index: 1000; 
         }
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-            color: var(--text);
-            line-height: 1.65;
-            word-break: keep-all;
-            background: var(--white);
-        }
-
-        button,
-        input,
-        textarea {
-            font-family: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        header {
-            position: fixed;
-            inset: 0 0 auto 0;
-            height: 64px;
-            padding: 0 18px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(14px);
-            border-bottom: 1px solid var(--line);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-size: 23px;
-            line-height: 1;
-            font-weight: 900;
-            color: var(--navy);
-            letter-spacing: -0.04em;
-            cursor: pointer;
-        }
-
-        .menu-toggle {
-            display: none;
-            width: 42px;
-            height: 42px;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            background: var(--white);
-            color: var(--navy);
-            font-size: 22px;
-            font-weight: 800;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
-
-        .nav-item {
-            position: relative;
-            height: 100%;
-            margin-left: 18px;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-link {
-            border: 0;
-            background: transparent;
-            text-decoration: none;
-            color: #4b5563;
-            font-size: 15px;
-            font-weight: 700;
-            padding: 12px 4px;
-            transition: color 0.2s ease;
-        }
-
-        .nav-link:hover,
-        .nav-link:focus {
-            color: var(--orange);
-        }
-
+        .logo { font-size: 22px; font-weight: 800; color: #1a2a6c; cursor: pointer; }
+        
+        nav { display: flex; align-items: center; height: 100%; }
+        .nav-item { position: relative; margin-left: 12px; height: 100%; display: flex; align-items: center; cursor: pointer; }
+        .nav-link { text-decoration: none; color: #555; font-weight: 600; padding: 10px 5px; font-size: 14px; }
+        
         .dropdown-content {
             display: none;
             position: absolute;
-            top: 62px;
+            background-color: #fff;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            top: 60px; 
             right: 0;
-            min-width: 150px;
-            background: var(--white);
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
+            border: 1px solid #eee;
             z-index: 1001;
         }
-
-        .dropdown-content button {
-            display: block;
-            width: 100%;
+        .dropdown-content a {
+            color: #555;
             padding: 14px 16px;
-            border: 0;
-            border-bottom: 1px solid #f3f4f6;
-            background: var(--white);
-            color: #4b5563;
-            text-align: left;
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .dropdown-content button:last-child {
-            border-bottom: 0;
-        }
-
-        .dropdown-content button:hover {
-            background: #fff7ed;
-            color: var(--orange-dark);
-        }
-
-        .nav-item.active-menu .dropdown-content {
+            text-decoration: none;
             display: block;
+            font-size: 13px;
+            border-bottom: 1px solid #f9f9f9;
+            cursor: pointer;
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .nav-item.active-menu .dropdown-content { display: block; }
+
+        .content-section { 
+            display: none; 
+            padding: 90px 20px 60px; 
+            min-height: 100vh; 
+            opacity: 0; 
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+        .content-section.active { 
+            display: block; 
+            opacity: 1; 
+            transform: translateY(0);
         }
 
-        main {
-            min-height: 100vh;
+        .hero { 
+            height: 80vh; 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image/Gemini_Generated_Image_gp9vwrgp9vwrgp9v.png'); 
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            text-align: center; color: #fff; border-radius: 0 0 24px 24px;
+            margin-top: -30px;
+        }
+        .hero h1 { font-size: 1.8rem; margin-bottom: 15px; padding: 0 20px; line-height: 1.4; font-weight: 800; }
+        .hero p { font-size: 0.95rem; opacity: 0.9; margin: 0; padding: 0 20px; }
+        .btn { 
+            margin-top: 25px; padding: 14px 36px; background: #f39c12; color: #fff; 
+            border: none; border-radius: 50px; font-weight: bold; cursor: pointer; 
+            font-size: 0.95rem; box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            transition: background 0.2s;
         }
 
-        .content-section {
-            display: none;
-            min-height: 100vh;
-            padding: 96px 20px 70px;
-            animation: fadeUp 0.35s ease both;
+        .section-title { text-align: center; font-size: 1.6rem; color: #1a2a6c; margin-bottom: 25px; font-weight: 800; }
+        
+        .intro-wrapper { max-width: 750px; margin: 0 auto; text-align: center; padding: 0 5px; }
+        .intro-wrapper .p-main { 
+            font-size: 1.15rem; 
+            line-height: 1.75; 
+            margin-bottom: 30px; 
+            letter-spacing: -0.03em;
         }
 
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero {
-            min-height: calc(100vh - 96px);
-            margin: -32px -20px 0;
-            padding: 0 24px;
-            background:
-                linear-gradient(135deg, rgba(26, 42, 108, 0.82), rgba(0, 0, 0, 0.45)),
-                url('image/Gemini_Generated_Image_gp9vwrgp9vwrgp9v.png');
-            background-size: cover;
-            background-position: center;
-            border-radius: 0 0 32px 32px;
+        .intro-wrapper .p-sub { 
+            font-size: 0.95rem; 
+            color: #555; 
+            margin: 14px auto; 
+            line-height: 1.6;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            position: relative;
-            overflow: hidden;
+            justify-content: center; 
+            width: max-content;
+            max-width: 100%;
         }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            right: -80px;
-            bottom: -80px;
-            background: rgba(243, 156, 18, 0.22);
-            filter: blur(2px);
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.12);
-            font-size: 0.82rem;
-            font-weight: 800;
-            letter-spacing: 0.02em;
-        }
-
-        .hero h1 {
-            margin: 0 0 16px;
-            font-size: clamp(2rem, 7vw, 4.2rem);
-            line-height: 1.22;
-            font-weight: 900;
-            letter-spacing: -0.055em;
-            text-shadow: 0 5px 24px rgba(0, 0, 0, 0.35);
-        }
-
-        .hero p {
-            margin: 0;
-            max-width: 720px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: clamp(1rem, 2.8vw, 1.35rem);
-            font-weight: 500;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 30px;
-            padding: 15px 34px;
-            border: 0;
-            border-radius: 999px;
-            background: linear-gradient(135deg, var(--orange), var(--orange-dark));
-            color: var(--white);
-            font-size: 0.98rem;
-            font-weight: 900;
-            box-shadow: 0 12px 28px rgba(243, 156, 18, 0.34);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 18px 36px rgba(243, 156, 18, 0.42);
-        }
-
-        .section-title {
-            margin: 0 0 30px;
-            text-align: center;
-            color: var(--navy);
-            font-size: clamp(1.7rem, 5vw, 2.55rem);
-            font-weight: 900;
-            letter-spacing: -0.055em;
-        }
-
-        .section-kicker {
-            margin: 0 auto 8px;
-            text-align: center;
-            color: var(--orange);
-            font-size: 0.88rem;
-            font-weight: 900;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .intro-wrapper {
-            max-width: 780px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .p-main {
-            margin: 0 0 32px;
-            font-size: clamp(1.15rem, 3.5vw, 1.55rem);
-            line-height: 1.75;
-            letter-spacing: -0.035em;
-        }
-
-        .intro-points {
-            display: grid;
-            gap: 14px;
-            max-width: 620px;
-            margin: 0 auto;
-        }
-
-        .p-sub {
-            margin: 0;
-            padding: 15px 18px;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            background: var(--soft);
-            color: #4b5563;
-            font-size: 0.98rem;
-            font-weight: 700;
-        }
-
-        .p-sub::before {
+        .intro-wrapper .p-sub::before {
             content: '✓';
+            color: #f39c12;
+            font-weight: bold;
             margin-right: 8px;
-            color: var(--orange);
-            font-weight: 900;
+            flex-shrink: 0;
         }
 
+        /* ─── [변경] 테두리 하이라이트 통일화 트럼프 패 레이아웃 ─── */
         .profile-container {
-            max-width: 820px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            margin: 40px auto 20px;
+            padding: 40px 10px;
+            height: 460px; 
+            position: relative;
         }
 
         .profile-card {
             position: relative;
-            width: 100%;
-            background: var(--white);
-            border: 2px solid var(--line);
-            border-radius: 26px;
-            padding: 34px 26px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .profile-card::before {
-            content: '';
-            position: absolute;
-            inset: 0 0 auto 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--orange), var(--orange-dark));
-        }
-
-        .profile-card:hover,
-        .profile-card:focus-within {
-            transform: translateY(-7px);
-            border-color: var(--orange);
-            box-shadow: 0 22px 45px rgba(15, 23, 42, 0.12);
-        }
-
-        .profile-head {
-            text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .profile-avatar {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 14px;
-            border-radius: 22px;
-            background: linear-gradient(135deg, var(--navy), #3146a0);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.45rem;
-            font-weight: 900;
-            box-shadow: 0 12px 25px rgba(26, 42, 108, 0.25);
-        }
-
-        .profile-info h3 {
-            margin: 0 0 5px;
-            color: var(--navy);
-            text-align: center;
-            font-size: 1.75rem;
-            font-weight: 900;
-            letter-spacing: -0.04em;
-        }
-
-        .sub-title {
-            display: block;
-            color: var(--orange);
-            text-align: center;
-            font-size: 0.92rem;
-            font-weight: 900;
-        }
-
-        .profile-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            gap: 11px;
-        }
-
-        .profile-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 9px;
-            color: #374151;
-            font-size: 0.96rem;
-            font-weight: 650;
-            line-height: 1.45;
-        }
-
-        .profile-list li::before {
-            content: '✓';
-            color: var(--orange);
-            font-weight: 900;
-            flex: 0 0 auto;
-        }
-
-        .recruiting-card {
-            border-style: dashed;
-            background: linear-gradient(180deg, #fff, #fbfbfd);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 230px;
-            text-align: center;
-        }
-
-        .recruiting-card::before {
-            background: linear-gradient(90deg, #cbd5e1, var(--orange));
-        }
-
-        .recruiting-icon {
-            width: 62px;
-            height: 62px;
-            margin: 0 auto 14px;
+            width: 280px;
+            height: 400px;
+            background: #f9f9f9; 
+            padding: 35px 20px; 
             border-radius: 20px;
-            background: #fff7ed;
-            color: var(--orange);
+            text-align: center;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 900;
+            border: 2px solid #eef0f5; /* 테두리 변화가 부드럽도록 두께를 2px로 맞춤 */
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, z-index 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .card-1 {
+            z-index: 20; 
+            box-shadow: 4px 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .card-2 {
+            z-index: 10; 
+            margin-left: -140px; 
+            box-shadow: -4px 4px 15px rgba(0,0,0,0.04);
         }
 
-        .recruiting-card h3 {
+        /* [수정] 내 카드(card-1)와 모집중 카드(card-2) 모두 호버/터치 시 오렌지색 테두리 하이라이트 적용 */
+        .profile-card:hover, .profile-card:focus-within {
+            z-index: 100 !important; 
+            transform: translateY(-45px); 
+            box-shadow: 0 15px 35px rgba(26, 42, 108, 0.15);
+            background: #fff;
+            border-color: #f39c12; /* 오렌지색 테두리 활성화 */
+        }
+        
+        /* 모집중 전용 스타일 - 점선 기본값 */
+        .profile-card.recruiting {
+            background: #fdfdfd;
+            border-style: dashed;
+            border-color: #cbd5e1;
+            justify-content: center; 
+        }
+        /* 모집중 카드가 활성화되면 점선을 실선으로 전환 */
+        .profile-card.recruiting:hover, .profile-card.recruiting:focus-within {
+            border-style: solid;
+            border-color: #f39c12;
+        }
+        
+        .recruiting-icon {
+            font-size: 2.5rem;
+            color: #f39c12;
+            margin-bottom: 8px;
+        }
+        .recruiting-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1a2a6c;
+            letter-spacing: -0.03em;
             margin: 0;
-            color: var(--navy);
-            font-size: 1.45rem;
-            font-weight: 900;
+        }
+        .recruiting-sub {
+            font-size: 0.85rem;
+            color: #f39c12;
+            font-weight: 700;
+            margin-top: 5px;
         }
 
-        .recruiting-card p {
-            margin: 5px 0 0;
-            color: var(--orange);
-            font-weight: 900;
-            font-size: 0.92rem;
+        .profile-info { width: 100%; }
+        .profile-info h3 { font-size: 1.35rem; margin: 0 0 6px 0; color: #1a2a6c; text-align: center; font-weight: 800; }
+        .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 25px; display: block; font-size: 0.85rem; text-align: center; }
+        
+        .profile-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+            text-align: left;
+            display: inline-block;
         }
+        .profile-list li { margin-bottom: 10px; font-size: 0.85rem; display: flex; align-items: flex-start; line-height: 1.4; color: #444; }
+        .profile-list li::before { content: '✓'; color: #f39c12; font-weight: bold; margin-right: 8px; flex-shrink: 0; }
+
+
+
+        /* ─── 오류 수정용 기본 스타일 보강 ─── */
+        a { color: inherit; cursor: pointer; }
+        button { font-family: inherit; }
+        body { overflow-x: hidden; background: #fff; }
 
         .service-grid {
-            max-width: 900px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr;
             gap: 18px;
+            max-width: 720px;
+            margin: 0 auto;
         }
-
         .service-item {
-            padding: 32px 24px;
-            background: var(--white);
-            border: 1px solid var(--line);
-            border-radius: 24px;
-            box-shadow: 0 10px 28px rgba(15, 23, 42, 0.045);
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            background: #fff;
+            border: 1px solid #eef0f5;
+            border-radius: 14px;
+            padding: 32px 22px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
         }
-
-        .service-item:hover {
-            transform: translateY(-6px);
-            border-color: var(--orange);
-            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.09);
-        }
-
-        .service-icon {
-            width: 54px;
-            height: 54px;
-            border-radius: 18px;
-            background: #fff7ed;
-            color: var(--orange);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.35rem;
-            font-weight: 900;
-            margin-bottom: 16px;
-        }
-
         .service-item h3 {
-            margin: 0 0 8px;
-            color: var(--navy);
+            margin: 0 0 10px;
+            color: #1a2a6c;
             font-size: 1.35rem;
-            font-weight: 900;
+            font-weight: 800;
         }
-
         .service-item p {
-            margin: 0 0 18px;
-            color: var(--muted);
-            font-weight: 650;
-        }
-
-        .service-list {
-            list-style: none;
-            padding: 0;
             margin: 0;
-            display: grid;
-            gap: 8px;
-        }
-
-        .service-list li {
-            color: #374151;
-            font-size: 0.95rem;
-            font-weight: 650;
-        }
-
-        .service-list li::before {
-            content: '✓';
-            margin-right: 8px;
-            color: var(--orange);
-            font-weight: 900;
+            color: #555;
+            font-size: 0.98rem;
         }
 
         .contact-box {
-            max-width: 520px;
+            max-width: 380px;
             margin: 0 auto;
-            padding: 34px 24px;
-            border: 1px solid var(--line);
-            border-radius: 26px;
-            background: var(--white);
-            box-shadow: var(--shadow);
+            padding: 36px 24px;
+            background: #fff;
+            border: 1px solid #eef0f5;
+            border-radius: 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
         }
-
-        .contact-row {
-            padding: 18px 0;
-            border-bottom: 1px solid #f1f3f7;
-        }
-
-        .contact-row:last-child {
-            border-bottom: 0;
-        }
-
-        .contact-label {
-            display: block;
-            color: var(--muted);
-            font-size: 0.88rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .contact-box a {
-            color: var(--navy);
-            text-decoration: none;
-            font-size: 1.08rem;
-            font-weight: 900;
-            border-bottom: 2px solid var(--orange);
-            padding-bottom: 2px;
-        }
-
-        .contact-note {
-            margin: 18px 0 0;
-            color: #8a94a6;
-            font-size: 0.88rem;
-            font-weight: 650;
-        }
+        .contact-box p { margin: 0 0 20px; color: #555; }
+        .contact-box p:last-child { margin-bottom: 0; }
+        .contact-box strong { color: #1a2a6c; font-size: 1.05rem; }
 
         .board-wrapper {
-            max-width: 880px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 0 2px;
         }
-
-        .board-card {
-            background: var(--white);
-            border: 1px solid var(--line);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-
         .board-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            padding: 18px;
-            border-bottom: 1px solid var(--line);
-            background: #fbfcff;
-        }
-
-        .board-header p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
-        .btn-sm {
-            padding: 10px 18px;
-            border: 0;
-            border-radius: 10px;
-            background: var(--navy);
-            color: var(--white);
-            font-size: 0.9rem;
-            font-weight: 900;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-        }
-
-        .btn-sm:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-sm.btn-secondary {
-            background: #edf0f5;
-            color: #374151;
-        }
-
-        .btn-sm.btn-orange {
-            background: var(--orange);
-        }
-
-        .btn-sm.btn-danger {
-            background: #e74c3c;
-        }
-
-        .write-form {
-            display: none;
-            padding: 18px;
-            background: #fffaf2;
-            border-bottom: 1px solid #f4dfbd;
-        }
-
-        .form-group {
+            justify-content: flex-end;
             margin-bottom: 14px;
         }
-
+        .write-form {
+            display: none;
+            background: #fff;
+            border: 1px solid #eef0f5;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+        }
+        .form-group { margin-bottom: 16px; text-align: left; }
         .form-group label {
             display: block;
-            margin-bottom: 7px;
-            color: var(--navy);
-            font-size: 0.9rem;
-            font-weight: 900;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #1a2a6c;
         }
-
         .form-control {
             width: 100%;
-            padding: 12px 13px;
-            border: 1px solid #d9dee8;
-            border-radius: 12px;
-            background: var(--white);
-            color: var(--text);
+            border: 1px solid #d8dee9;
+            border-radius: 10px;
+            padding: 13px 14px;
+            font-family: inherit;
             font-size: 0.95rem;
             outline: none;
         }
-
         .form-control:focus {
-            border-color: var(--orange);
-            box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.13);
+            border-color: #f39c12;
+            box-shadow: 0 0 0 3px rgba(243,156,18,0.12);
         }
+        textarea.form-control { resize: vertical; min-height: 160px; }
 
-        .form-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
+        .btn-sm {
+            padding: 9px 18px;
+            border: none;
+            border-radius: 999px;
+            background: #1a2a6c;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-secondary {
+            background: #eef0f5;
+            color: #333;
+            margin-right: 8px;
         }
 
         .board-table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
-            font-size: 0.92rem;
-        }
-
-        .board-table th,
-        .board-table td {
-            padding: 14px 10px;
-            border-bottom: 1px solid #edf0f5;
-            vertical-align: middle;
-        }
-
-        .board-table tr:last-child td {
-            border-bottom: 0;
-        }
-
-        .board-table th {
-            background: #f8f9fc;
-            color: var(--navy);
-            font-weight: 900;
-        }
-
-        .board-table tbody tr {
-            transition: background 0.18s ease;
-        }
-
-        .board-table tbody tr:hover {
-            background: #fffaf2;
-        }
-
-        .col-num {
-            width: 48px;
-            text-align: center;
-        }
-
-        .col-date {
-            width: 86px;
-            text-align: center;
-        }
-
-        .board-table td.center {
-            color: #8a94a6;
-            text-align: center;
-            font-size: 0.86rem;
-            white-space: nowrap;
-        }
-
-        .board-table td.title {
-            color: #253044;
-            font-weight: 800;
-            cursor: pointer;
+            background: #fff;
+            border-radius: 14px;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+            font-size: 0.9rem;
         }
-
-        .board-table td.title:hover {
-            color: var(--orange-dark);
-            text-decoration: underline;
-        }
-
-        .no-data {
-            padding: 42px 12px !important;
-            color: #9aa3b2;
-            text-align: center;
+        .board-table th {
+            background: #1a2a6c;
+            color: #fff;
+            padding: 13px 10px;
             font-weight: 700;
         }
+        .board-table td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #f0f2f6;
+            color: #444;
+        }
+        .board-table tr:last-child td { border-bottom: none; }
+        .board-table td.title {
+            cursor: pointer;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+        .board-table td.title:hover { text-decoration: underline; }
+        .board-table td.center { text-align: center; color: #666; }
+        .col-num { width: 52px; }
+        .col-date { width: 90px; }
+        .no-data { text-align: center; color: #888; padding: 30px 10px !important; }
 
         .modal {
             display: none;
             position: fixed;
             inset: 0;
-            padding: 20px;
-            background: rgba(15, 23, 42, 0.58);
             z-index: 2000;
+            background: rgba(0,0,0,0.45);
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
-
         .modal-content {
-            width: min(620px, 100%);
-            max-height: 85vh;
-            overflow: hidden;
-            background: var(--white);
-            border-radius: 24px;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
-            animation: modalIn 0.22s ease both;
+            width: min(100%, 560px);
+            max-height: 82vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 18px;
+            padding: 26px 22px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
         }
-
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .modal-head {
-            padding: 22px 24px 14px;
-            border-bottom: 1px solid var(--line);
-        }
-
         .modal-title {
             margin: 0 0 8px;
-            color: var(--navy);
-            font-size: 1.35rem;
-            font-weight: 900;
-            letter-spacing: -0.035em;
+            color: #1a2a6c;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1.35;
         }
-
         .modal-date {
-            color: #8a94a6;
-            font-size: 0.84rem;
-            font-weight: 700;
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 18px;
         }
-
         .modal-body {
-            min-height: 170px;
-            max-height: 46vh;
-            overflow-y: auto;
-            padding: 22px 24px;
-            color: #374151;
-            font-size: 0.98rem;
+            color: #333;
             line-height: 1.75;
             white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 80px;
         }
-
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 8px;
-            padding: 16px 24px 22px;
-            border-top: 1px solid var(--line);
-            background: #fbfcff;
+            flex-wrap: wrap;
+            margin-top: 22px;
         }
 
-        .admin-warning {
-            margin: 18px auto 0;
-            max-width: 880px;
-            color: #8a5a00;
-            background: #fff7ed;
-            border: 1px solid #fed7aa;
-            border-radius: 16px;
-            padding: 13px 15px;
-            font-size: 0.84rem;
-            font-weight: 700;
-            line-height: 1.55;
+        @media (max-width: 420px) {
+            header { padding: 0 12px; }
+            .logo { font-size: 19px; }
+            .nav-item { margin-left: 6px; }
+            .nav-link { font-size: 12px; padding: 10px 3px; }
+            .profile-container { height: 430px; padding-left: 0; padding-right: 0; }
+            .profile-card { width: 255px; height: 380px; padding: 28px 18px; }
+            .card-2 { margin-left: -132px; }
+            .profile-card:hover, .profile-card:focus-within { transform: translateY(-25px); }
+            .board-table { font-size: 0.8rem; }
+            .board-table th, .board-table td { padding: 11px 6px; }
         }
 
-        @media (max-width: 760px) {
-            header {
-                height: 62px;
+        @media (min-width: 1024px) {
+            header { height: 80px; padding: 0 8%; }
+            .logo { font-size: 28px; }
+            .nav-item { margin-left: 30px; }
+            .nav-link { font-size: 16px; padding: 15px 10px; }
+            
+            .nav-item:hover .dropdown-content { display: block; }
+            .dropdown-content { top: 75px; min-width: 140px; }
+            .dropdown-content a { font-size: 15px; padding: 15px 20px; }
+            
+            .content-section { padding: 140px 20px 80px; }
+            
+            .hero { height: 85vh; border-radius: 0 0 40px 40px; }
+            .hero h1 { 
+                font-size: 3.5rem; 
+                margin-bottom: 20px; 
+                line-height: 1.3; 
+                white-space: nowrap; 
+                padding: 0 40px;
             }
+            .hero p { font-size: 1.3rem; }
+            .btn { font-size: 1.1rem; padding: 18px 50px; margin-top: 35px; }
+            .btn:hover { background: #e67e22; }
 
-            .menu-toggle {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
+            .section-title { font-size: 2.4rem; margin-bottom: 45px; }
+            
+            .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
+            .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
+            
+            .profile-container { 
+                height: 500px;
+                margin-top: 50px;
+                padding: 40px 20px;
             }
+            .profile-card { 
+                width: 320px;
+                height: 440px;
+                padding: 45px 30px;
+            }
+            .card-2 { margin-left: -220px; } 
+            
+            .profile-info h3 { font-size: 1.6rem; }
+            .profile-info .sub-title { font-size: 0.9rem; }
+            .profile-list li { font-size: 1rem; margin-bottom: 14px; }
+            .recruiting-text { font-size: 1.6rem; }
+            
+            .service-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; }
+            .service-item { padding: 50px 30px; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+            .service-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+            .service-item h3 { font-size: 1.6rem; }
+            .service-item p { font-size: 1.1rem; }
 
-            nav {
-                display: none;
-                position: fixed;
-                top: 62px;
-                left: 12px;
-                right: 12px;
-                height: auto;
-                padding: 10px;
-                border: 1px solid var(--line);
-                border-radius: 18px;
-                background: rgba(255, 255, 255, 0.98);
-                box-shadow: var(--shadow);
-                flex-direction: column;
-                align-items: stretch;
-            }
+            .contact-box { max-width: 450px; padding: 50px 40px; }
+            .contact-box p { font-size: 1.2rem; }
 
-            nav.open {
-                display: flex;
-            }
-
-            .nav-item {
-                height: auto;
-                margin: 0;
-                display: block;
-            }
-
-            .nav-link {
-                width: 100%;
-                display: block;
-                padding: 14px 12px;
-                text-align: left;
-                border-radius: 12px;
-                font-size: 15px;
-            }
-
-            .dropdown-content {
-                position: static;
-                min-width: auto;
-                box-shadow: none;
-                border-radius: 12px;
-                margin: 0 0 8px;
-            }
-
-            .dropdown-content button {
-                padding-left: 22px;
-            }
-
-            .content-section {
-                padding: 92px 18px 64px;
-            }
-
-            .hero {
-                min-height: calc(100vh - 92px);
-                border-radius: 0 0 28px 28px;
-            }
-
-            .profile-card,
-            .service-item,
-            .contact-box,
-            .board-card {
-                border-radius: 22px;
-            }
-
-            .board-header {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .board-header .btn-sm {
-                width: 100%;
-            }
-
-            .modal-footer {
-                flex-wrap: wrap;
-            }
-
-            .modal-footer .btn-sm {
-                flex: 1 1 auto;
-            }
-        }
-
-        @media (min-width: 900px) {
-            header {
-                height: 80px;
-                padding: 0 8%;
-            }
-
-            .logo {
-                font-size: 30px;
-            }
-
-            .dropdown-content {
-                top: 78px;
-            }
-
-            .content-section {
-                padding: 136px 24px 90px;
-            }
-
-            .hero {
-                min-height: calc(100vh - 136px);
-                margin-top: -56px;
-                border-radius: 0 0 44px 44px;
-            }
-
-            .profile-container {
-                grid-template-columns: 1.4fr 0.9fr;
-                align-items: stretch;
-            }
-
-            .profile-card {
-                padding: 46px 46px;
-            }
-
-            .profile-info h3 {
-                font-size: 2.1rem;
-            }
-
-            .profile-list li {
-                font-size: 1.08rem;
-            }
-
-            .service-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 26px;
-            }
-
-            .service-item {
-                padding: 42px 34px;
-            }
-
-            .contact-box {
-                padding: 44px 40px;
-            }
-
-            .board-table th,
-            .board-table td {
-                padding: 17px 16px;
-            }
-
-            .col-num {
-                width: 76px;
-            }
-
-            .col-date {
-                width: 130px;
-            }
+            .board-wrapper { padding: 0; }
+            .board-table { font-size: 1rem; }
+            .board-table th, .board-table td { padding: 16px 15px; }
+            .btn-sm { font-size: 0.95rem; padding: 10px 24px; }
+            
+            .col-num { width: 70px; }
+            .col-date { width: 130px; }
+            .board-table td.center { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="logo" onclick="showSection('home')">JETT</div>
-        <button class="menu-toggle" id="menuToggle" type="button" onclick="toggleMobileNav()" aria-label="메뉴 열기">☰</button>
 
-        <nav id="mainNav">
-            <div class="nav-item" onclick="toggleMenu(event, this)">
-                <button class="nav-link" type="button">JETT ▾</button>
-                <div class="dropdown-content">
-                    <button type="button" onclick="event.stopPropagation(); showSection('jett-intro')">JETT 소개</button>
-                    <button type="button" onclick="event.stopPropagation(); showSection('about')">교사 소개</button>
-                </div>
-            </div>
-
-            <div class="nav-item">
-                <button class="nav-link" type="button" onclick="showSection('service')">서비스</button>
-            </div>
-
-            <div class="nav-item" onclick="toggleMenu(event, this)">
-                <button class="nav-link" type="button">커뮤니티 ▾</button>
-                <div class="dropdown-content">
-                    <button type="button" onclick="event.stopPropagation(); showSection('notice')">공지사항</button>
-                </div>
-            </div>
-
-            <div class="nav-item">
-                <button class="nav-link" type="button" onclick="showSection('contact')">문의</button>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <section id="home" class="content-section active">
-            <div class="hero">
-                <div class="hero-badge">Premium English Teaching Team</div>
-                <h1>당신이 있는 곳이<br>강의실이 됩니다</h1>
-                <p>영어 교육 전문가들이 제공하는 맞춤형 프리미엄 수업</p>
-                <button class="btn" type="button" onclick="showSection('contact')">무료 상담 신청하기 →</button>
-            </div>
-        </section>
-
-        <section id="jett-intro" class="content-section">
-            <p class="section-kicker">About JETT</p>
-            <h2 class="section-title">JETT 소개</h2>
-            <div class="intro-wrapper">
-                <p class="p-main">
-                    JETT(Johns Elite Teaching Team)는<br>
-                    <strong>엘리트 영어교사</strong>로 구성된 프리미엄 영어 교육 팀입니다.
-                </p>
-                <div class="intro-points">
-                    <p class="p-sub">학습자가 원하는 장소에서 최적화된 수업을 제공합니다.</p>
-                    <p class="p-sub">지속적인 교수법 연구로 수업의 완성도를 높입니다.</p>
-                    <p class="p-sub">목표, 수준, 성향을 반영한 맞춤형 커리큘럼을 제공합니다.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="content-section">
-            <p class="section-kicker">Instructor Profile</p>
-            <h2 class="section-title">교사 소개</h2>
-
-            <div class="profile-container">
-                <div class="profile-card" tabindex="0">
-                    <div class="profile-info">
-                        <div class="profile-head">
-                            <div class="profile-avatar">JL</div>
-                            <h3>John Lee</h3>
-                            <span class="sub-title">JETT 대표 인스트럭터</span>
-                        </div>
-
-                        <ul class="profile-list">
-                            <li>JETT 대표</li>
-                            <li>교육청 정식 등록</li>
-                            <li>CELTA 자격증 소지 (TESOL 상위급)</li>
-                            <li>케임브리지 대학교 인증 교사</li>
-                            <li>AI 응용 교수법 연구</li>
-                            <li>대한민국 육군 병장 만기 전역</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="profile-card recruiting-card" tabindex="0">
-                    <div>
-                        <div class="recruiting-icon">＋</div>
-                        <h3>모집중</h3>
-                        <p>Elite Instructor</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="service" class="content-section">
-            <p class="section-kicker">Our Services</p>
-            <h2 class="section-title">수업 안내</h2>
-
-            <div class="service-grid">
-                <div class="service-item">
-                    <div class="service-icon">1:1</div>
-                    <h3>1:1 프리미엄 레슨</h3>
-                    <p>개인 목표와 수준에 맞춘 집중형 맞춤 수업</p>
-                    <ul class="service-list">
-                        <li>영어회화 및 발음 교정</li>
-                        <li>TOEFL / 시험 대비</li>
-                        <li>비즈니스 영어 및 인터뷰 대비</li>
-                    </ul>
-                </div>
-
-                <div class="service-item">
-                    <div class="service-icon">G</div>
-                    <h3>그룹 레슨</h3>
-                    <p>체계적인 커리큘럼 기반의 소수정예 수업</p>
-                    <ul class="service-list">
-                        <li>레벨별 그룹 운영</li>
-                        <li>실전 말하기 중심 수업</li>
-                        <li>학습자 간 상호작용 강화</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="notice" class="content-section">
-            <p class="section-kicker">Notice</p>
-            <h2 class="section-title">공지사항</h2>
-
-            <div class="board-wrapper">
-                <div class="board-card">
-                    <div id="writeForm" class="write-form">
-                        <div class="form-group">
-                            <label id="formTitleLabel" for="postTitle">공지 제목</label>
-                            <input type="text" id="postTitle" class="form-control" placeholder="제목을 입력하세요">
-                        </div>
-                        <div class="form-group">
-                            <label for="postContent">공지 내용</label>
-                            <textarea id="postContent" class="form-control" rows="8" placeholder="공지할 내용을 입력하세요"></textarea>
-                        </div>
-                        <div class="form-actions">
-                            <button class="btn-sm btn-secondary" type="button" onclick="cancelWriteForm()">취소</button>
-                            <button id="btnSave" class="btn-sm" type="button" onclick="savePost()">등록하기</button>
-                        </div>
-                    </div>
-
-                    <div class="board-header">
-                        <p>최신 공지와 업데이트를 확인하세요.</p>
-                        <button id="btnToggleWrite" class="btn-sm" type="button" onclick="openWriteForm()">공지작성</button>
-                    </div>
-
-                    <table class="board-table">
-                        <thead>
-                            <tr>
-                                <th class="col-num">번호</th>
-                                <th>제목</th>
-                                <th class="col-date">작성일</th>
-                            </tr>
-                        </thead>
-                        <tbody id="boardList"></tbody>
-                    </table>
-                </div>
-
-                <div class="admin-warning">
-                    안내: 이 파일은 정적 HTML 버전입니다. 공지사항은 현재 브라우저의 localStorage에 저장됩니다. 실제 공개 운영에서 관리자 기능을 안전하게 쓰려면 Firebase, Supabase, 서버 기반 로그인 등을 사용하는 것이 좋습니다.
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="content-section" style="text-align:center;">
-            <p class="section-kicker">Contact Us</p>
-            <h2 class="section-title">문의</h2>
-
-            <div class="contact-box">
-                <div class="contact-row">
-                    <span class="contact-label">📞 전화</span>
-                    <a href="tel:01058617928">010-5861-7928</a>
-                </div>
-                <div class="contact-row">
-                    <span class="contact-label">✉ 이메일</span>
-                    <a href="mailto:jett_biz@naver.com">jett_biz@naver.com</a>
-                </div>
-                <p class="contact-note">* 모든 상담은 예약제로 운영됩니다.</p>
-            </div>
-        </section>
-    </main>
-
-    <div id="postModal" class="modal" role="dialog" aria-modal="true">
-        <div class="modal-content">
-            <div class="modal-head">
-                <h3 id="modalTitle" class="modal-title">공지사항 제목</h3>
-                <div id="modalDate" class="modal-date">작성일</div>
-            </div>
-            <div id="modalBody" class="modal-body">공지사항 내용</div>
-            <div class="modal-footer">
-                <button id="btnEditPost" class="btn-sm btn-orange" type="button">수정</button>
-                <button id="btnDeletePost" class="btn-sm btn-danger" type="button">삭제</button>
-                <button class="btn-sm btn-secondary" type="button" onclick="closeModal()">닫기</button>
+<header>
+    <div class="logo" onclick="showSection('home')">JETT</div>
+    <nav>
+        <div class="nav-item" onclick="toggleMenu(event, this)">
+            <span class="nav-link">JETT ▾</span>
+            <div class="dropdown-content">
+                <a onclick="event.stopPropagation(); showSection('jett-intro')">JETT 소개</a>
+                <a onclick="event.stopPropagation(); showSection('about')">교사 소개</a>
             </div>
         </div>
+        <div class="nav-item">
+            <a class="nav-link" onclick="showSection('service')">서비스</a>
+        </div>
+        <div class="nav-item" onclick="toggleMenu(event, this)">
+            <span class="nav-link">커뮤니티 ▾</span>
+            <div class="dropdown-content">
+                <a onclick="event.stopPropagation(); showSection('notice')">공지사항</a>
+            </div>
+        </div>
+        <div class="nav-item">
+            <a class="nav-link" onclick="showSection('contact')">문의</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section id="home" class="content-section active">
+        <div class="hero">
+            <h1>당신이 있는 곳이<br>&nbsp;강의실이 됩니다</h1>
+            <p>영어 교육 전문가들의 맞춤형 프리미엄 수업</p>
+            <button class="btn" onclick="showSection('contact')">무료 상담 신청하기</button>
+        </div>
+    </section>
+
+    <section id="jett-intro" class="content-section">
+        <h2 class="section-title">About JETT</h2>
+        <div class="intro-wrapper">
+            <p class="p-main">
+                JETT(Johns Elite Teaching Team)는<br>
+                <strong>엘리트 영어교사</strong>로 구성된 팀입니다.
+            </p>
+            <p class="p-sub">학습자가 원하는 장소에서 최고의 수업을 제공합니다.</p>
+            <p class="p-sub">지속적인 교수법 연구로 최상의 수업을 제공합니다.</p>
+        </div>
+    </section>
+
+    <!-- ─── [수정 완료] 하이라이트 효과가 모두 적용된 교사 소개 섹션 ─── -->
+    <section id="about" class="content-section">
+        <h2 class="section-title">Instructor Profile</h2>
+        <div class="profile-container">
+            
+            <!-- 첫 번째 카드: 대표 프로필 -->
+            <div class="profile-card card-1" tabindex="0">
+                <div class="profile-info">
+                    <h3>John Lee</h3>
+                    <span class="sub-title">JETT 대표 인스트럭터</span>
+                    
+                    <ul class="profile-list">
+                        <li>JETT 대표</li>
+                        <li>교육청 정식 등록</li>
+                        <li>CELTA 자격증 소지 (TESOL 상위급)</li>
+                        <li>케임브리지 대학교 인증 교사</li>
+                        <li>AI 응용 교수법 연구</li>
+                        <li>대한민국 육군 병장 만기 전역</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 두 번째 카드: 모집중 카드 -->
+            <div class="profile-card card-2 recruiting" tabindex="0">
+                <div class="recruiting-icon">✉</div>
+                <h3 class="recruiting-text">모집중</h3>
+                <div class="recruiting-sub">Elite Instructor</div>
+            </div>
+
+        </div>
+    </section>
+    <!-- ────────────────────────────────────────────────────────────── -->
+
+    <section id="service" class="content-section">
+        <h2 class="section-title">Our Services</h2>
+        <div class="service-grid">
+            <div class="service-item">
+                <h3>1:1 레슨</h3>
+                <p>프리미엄 맞춤 수업</p>
+            </div>
+            <div class="service-item">
+                <h3>그룹 레슨</h3>
+                <p>시스템화된 그룹 수업</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="notice" class="content-section">
+        <h2 class="section-title">Notice</h2>
+        <div class="board-wrapper">
+            
+            <div id="writeForm" class="write-form">
+                <div class="form-group">
+                    <label id="formTitleLabel" for="postTitle">공지 제목</label>
+                    <input type="text" id="postTitle" class="form-control" placeholder="제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="postContent">공지 내용</label>
+                    <textarea id="postContent" class="form-control" rows="8" placeholder="공지할 내용을 입력하세요"></textarea>
+                </div>
+                <div style="text-align: right;">
+                    <button class="btn-sm btn-secondary" onclick="cancelWriteForm()">취소</button>
+                    <button id="btnSave" class="btn-sm" onclick="savePost()">등록하기</button>
+                </div>
+            </div>
+
+            <div class="board-header">
+                <button id="btnToggleWrite" class="btn-sm" onclick="openWriteForm()">공지작성</button>
+            </div>
+
+            <table class="board-table">
+                <thead>
+                    <tr>
+                        <th class="col-num">번호</th>
+                        <th>제목</th>
+                        <th class="col-date">작성일</th>
+                    </tr>
+                </thead>
+                <tbody id="boardList"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section" style="text-align: center;">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-box">
+            <p>전화<br><strong><a href="tel:010-5861-7928">010-5861-7928</a></strong></p>
+            <p>이메일<br><strong><a href="mailto:jett_biz@naver.com">jett_biz@naver.com</a></strong></p>
+            <p style="color: #888; font-size: 0.85rem; margin-top: 30px;">* 모든 상담은 예약제로 운영됩니다.</p>
+        </div>
+    </section>
+</main>
+
+<div id="postModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle" class="modal-title">공지사항 제목</h3>
+        <div id="modalDate" class="modal-date">26-05-20</div>
+        <div id="modalBody" class="modal-body">공지사항 내용</div>
+        <div class="modal-footer">
+            <button id="btnEditPost" class="btn-sm" style="background:#f39c12; color:#fff;">수정</button>
+            <button id="btnDeletePost" class="btn-sm" style="background:#e74c3c; color:#fff;">삭제</button>
+            <button class="btn-sm btn-secondary" style="margin-right:0;" onclick="closeModal()">닫기</button>
+        </div>
     </div>
+</div>
 
-    <script>
-        const ADMIN_PASSWORD = "13579Lee@";
-        const STORAGE_KEY = "jett_notices_v2";
+<script>
+    const ADMIN_PASSWORD = "13579Lee@";
 
-        const defaultNotices = [
-            {
-                id: 1716161600000,
-                title: "JETT 오픈 준비 중입니다.",
-                content: "안녕하세요, JETT입니다!\n\n현재 최고의 교육 프로그램을 위해 설레는 마음으로 오픈을 준비하고 있습니다. ^.^\n\n열심히 준비해서 곧 찾아뵙겠습니다!\n\n감사합니다.\n\nJETT 대표 드림",
-                date: "26-05-20"
-            }
-        ];
+    let isEditMode = false;
+    let editPostId = null;
 
-        let isEditMode = false;
-        let editPostId = null;
-        let notices = loadNotices();
-
-        function loadNotices() {
-            try {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                return saved ? JSON.parse(saved) : defaultNotices;
-            } catch (error) {
-                console.warn("공지사항을 불러오지 못했습니다.", error);
-                return defaultNotices;
-            }
+    let notices = [
+        {
+            "id": 1716161600000, 
+            "title": "JETT 오픈 준비 중입니다.",
+            "content": "안녕하세요, JETT입니다!\n\n현재 최고의 교육 프로그램을 위해 설레는 마음으로 오픈을 준비하고 있습니다. ^.^\n\n열심히 준비해서 곧 찾아뵙겠습니다!\n\n감사합니다.\n\nJETT 대표 드림",
+            "date": "26-05-20"
         }
+    ];
 
-        function persistNotices() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(notices));
+    function showSection(id) {
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => { section.classList.remove('active'); });
+        
+        const target = document.getElementById(id);
+        if (target) { target.classList.add('active'); }
+        
+        const activeMenus = document.querySelectorAll('.nav-item.active-menu');
+        activeMenus.forEach(menu => menu.classList.remove('active-menu'));
+
+        if(id === 'notice') {
+            resetFormState();
+            renderBoard();
         }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-        function showSection(id) {
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-
-            const target = document.getElementById(id);
-            if (target) target.classList.add('active');
-
-            closeAllMenus();
-            closeMobileNav();
-
-            if (id === 'notice') {
-                resetFormState();
-                renderBoard();
-            }
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function toggleMobileNav() {
-            const nav = document.getElementById('mainNav');
-            const menuToggle = document.getElementById('menuToggle');
-            const isOpen = nav.classList.toggle('open');
-            menuToggle.textContent = isOpen ? '×' : '☰';
-        }
-
-        function closeMobileNav() {
-            const nav = document.getElementById('mainNav');
-            const menuToggle = document.getElementById('menuToggle');
-            nav.classList.remove('open');
-            menuToggle.textContent = '☰';
-        }
-
-        function toggleMenu(event, elem) {
+    function toggleMenu(event, elem) {
+        if (window.innerWidth < 1024) {
+            if (event.target.tagName === 'A') return;
             event.stopPropagation();
-            const isOpen = elem.classList.contains('active-menu');
-            closeAllMenus();
-            if (!isOpen) elem.classList.add('active-menu');
+            const activeMenus = document.querySelectorAll('.nav-item.active-menu');
+            activeMenus.forEach(menu => { if(menu !== elem) menu.classList.remove('active-menu'); });
+            elem.classList.toggle('active-menu');
+        }
+    }
+
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-item')) {
+            const activeMenus = document.querySelectorAll('.nav-item.active-menu');
+            activeMenus.forEach(menu => menu.classList.remove('active-menu'));
+        }
+    });
+
+    function renderBoard() {
+        const listContainer = document.getElementById('boardList');
+        listContainer.innerHTML = '';
+
+        if(notices.length === 0) {
+            listContainer.innerHTML = `<tr><td colspan="3" class="no-data">등록된 공지사항이 없습니다.</td></tr>`;
+            return;
         }
 
-        function closeAllMenus() {
-            document.querySelectorAll('.nav-item.active-menu').forEach(menu => {
-                menu.classList.remove('active-menu');
-            });
-        }
+        const reversedNotices = [...notices].reverse();
 
-        window.addEventListener('click', function(e) {
-            if (!e.target.closest('.nav-item')) closeAllMenus();
-            if (!e.target.closest('nav') && !e.target.closest('.menu-toggle')) closeMobileNav();
+        reversedNotices.forEach((post, index) => {
+            const tr = document.createElement('tr');
+            
+            const numTd = document.createElement('td');
+            numTd.className = 'center';
+            numTd.textContent = notices.length - index;
+            
+            const titleTd = document.createElement('td');
+            titleTd.className = 'title';
+            titleTd.textContent = post.title;
+            titleTd.onclick = () => viewPost(post.id);
+            
+            const dateTd = document.createElement('td');
+            dateTd.className = 'center date-cell';
+            dateTd.textContent = post.date;
+
+            tr.appendChild(numTd);
+            tr.appendChild(titleTd);
+            tr.appendChild(dateTd);
+            listContainer.appendChild(tr);
         });
+    }
 
-        window.addEventListener('resize', function() {
-            if (window.innerWidth > 760) closeMobileNav();
-        });
+    function resetFormState() {
+        isEditMode = false;
+        editPostId = null;
+        document.getElementById('writeForm').style.display = 'none';
+        document.getElementById('btnToggleWrite').style.display = 'block';
+        document.getElementById('formTitleLabel').textContent = '공지 제목';
+        document.getElementById('btnSave').textContent = '등록하기';
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postContent').value = '';
+    }
 
-        function renderBoard() {
-            const listContainer = document.getElementById('boardList');
-            listContainer.innerHTML = '';
+    function openWriteForm() {
+        const pwd = prompt("공지사항 작성을 위해 관리자 비밀번호를 입력하세요.");
+        if(pwd !== ADMIN_PASSWORD) {
+            if(pwd !== null) alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        resetFormState();
+        document.getElementById('writeForm').style.display = 'block';
+        document.getElementById('btnToggleWrite').style.display = 'none';
+    }
 
-            if (notices.length === 0) {
-                listContainer.innerHTML = '<tr><td colspan="3" class="no-data">등록된 공지사항이 없습니다.</td></tr>';
-                return;
+    function cancelWriteForm() {
+        resetFormState();
+    }
+
+    function generateNewCode(updatedNotices) {
+        const codeString = `let notices = ${JSON.stringify(updatedNotices, null, 8)};`;
+        
+        const textarea = document.createElement('textarea');
+        textarea.value = codeString;
+        textarea.style.width = '100%';
+        textarea.style.height = '200px';
+        textarea.style.marginTop = '15px';
+        textarea.style.fontFamily = 'monospace';
+        textarea.readOnly = true;
+
+        const container = document.createElement('div');
+        container.innerHTML = `<p style="font-weight:bold; color:#e74c3c; margin:0;">⚠️ 모바일 반영을 위한 필수 단계!</p>
+                               <p style="font-size:12px; color:#666; margin:5px 0 15px 0;">아래 텍스트 상자의 코드를 전체 복사하여, HTML 파일 하단의 고정 데이터 영역에 덮어씌운 후 서버에 업로드하세요.</p>`;
+        container.appendChild(textarea);
+
+        document.getElementById('modalTitle').textContent = "🎉 변경된 소스코드 생성 완료";
+        document.getElementById('modalDate').textContent = "";
+        document.getElementById('modalBody').innerHTML = "";
+        document.getElementById('modalBody').appendChild(container);
+        
+        document.getElementById('btnEditPost').style.display = 'none';
+        document.getElementById('btnDeletePost').style.display = 'none';
+        
+        document.getElementById('postModal').style.display = 'flex';
+    }
+
+    function savePost() {
+        const title = document.getElementById('postTitle').value.trim();
+        const content = document.getElementById('postContent').value.trim();
+
+        if(!title || !content) {
+            alert("제목과 내용을 모두 입력해 주세요.");
+            return;
+        }
+
+        if (isEditMode) {
+            const postIndex = notices.findIndex(item => item.id === editPostId);
+            if (postIndex > -1) {
+                notices[postIndex].title = title;
+                notices[postIndex].content = content;
+                alert("공지사항이 성공적으로 수정되었습니다.\n생성된 코드를 복사하세요.");
             }
-
-            const reversedNotices = [...notices].sort((a, b) => b.id - a.id);
-
-            reversedNotices.forEach((post, index) => {
-                const tr = document.createElement('tr');
-
-                const numTd = document.createElement('td');
-                numTd.className = 'center';
-                numTd.textContent = notices.length - index;
-
-                const titleTd = document.createElement('td');
-                titleTd.className = 'title';
-                titleTd.textContent = post.title;
-                titleTd.onclick = () => viewPost(post.id);
-
-                const dateTd = document.createElement('td');
-                dateTd.className = 'center date-cell';
-                dateTd.textContent = post.date;
-
-                tr.appendChild(numTd);
-                tr.appendChild(titleTd);
-                tr.appendChild(dateTd);
-                listContainer.appendChild(tr);
-            });
-        }
-
-        function resetFormState() {
-            isEditMode = false;
-            editPostId = null;
-            document.getElementById('writeForm').style.display = 'none';
-            document.getElementById('btnToggleWrite').style.display = 'inline-flex';
-            document.getElementById('formTitleLabel').textContent = '공지 제목';
-            document.getElementById('btnSave').textContent = '등록하기';
-            document.getElementById('postTitle').value = '';
-            document.getElementById('postContent').value = '';
-        }
-
-        function checkAdminPassword(message) {
-            const pwd = prompt(message || '관리자 비밀번호를 입력하세요.');
-            if (pwd === null) return false;
-            if (pwd !== ADMIN_PASSWORD) {
-                alert('비밀번호가 일치하지 않습니다.');
-                return false;
-            }
-            return true;
-        }
-
-        function openWriteForm() {
-            if (!checkAdminPassword('공지사항 작성을 위해 관리자 비밀번호를 입력하세요.')) return;
-            resetFormState();
-            document.getElementById('writeForm').style.display = 'block';
-            document.getElementById('btnToggleWrite').style.display = 'none';
-            document.getElementById('postTitle').focus();
-        }
-
-        function cancelWriteForm() {
-            resetFormState();
-        }
-
-        function getTodayString() {
+        } else {
             const today = new Date();
             const yy = String(today.getFullYear()).slice(-2);
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
-            return `${yy}-${mm}-${dd}`;
+            const dateString = `${yy}-${mm}-${dd}`;
+
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                date: dateString
+            };
+
+            notices.push(newPost);
+            alert("공지사항이 성공적으로 등록되었습니다.\n생성된 코드를 복사하세요.");
         }
 
-        function savePost() {
-            const title = document.getElementById('postTitle').value.trim();
-            const content = document.getElementById('postContent').value.trim();
-
-            if (!title || !content) {
-                alert('제목과 내용을 모두 입력해 주세요.');
-                return;
-            }
-
-            if (isEditMode) {
-                const postIndex = notices.findIndex(item => item.id === editPostId);
-                if (postIndex > -1) {
-                    notices[postIndex].title = title;
-                    notices[postIndex].content = content;
-                    alert('공지사항이 수정되었습니다.');
-                }
-            } else {
-                notices.push({
-                    id: Date.now(),
-                    title,
-                    content,
-                    date: getTodayString()
-                });
-                alert('공지사항이 등록되었습니다.');
-            }
-
-            persistNotices();
-            resetFormState();
-            renderBoard();
-        }
-
-        function viewPost(id) {
-            const post = notices.find(item => item.id === id);
-            if (!post) return;
-
-            document.getElementById('modalTitle').textContent = post.title;
-            document.getElementById('modalDate').textContent = `작성일: ${post.date}`;
-            document.getElementById('modalBody').textContent = post.content;
-
-            document.getElementById('btnDeletePost').onclick = () => deletePost(post.id);
-            document.getElementById('btnEditPost').onclick = () => switchToEditMode(post.id);
-
-            document.getElementById('btnEditPost').style.display = 'inline-flex';
-            document.getElementById('btnDeletePost').style.display = 'inline-flex';
-            document.getElementById('postModal').style.display = 'flex';
-        }
-
-        function switchToEditMode(id) {
-            if (!checkAdminPassword('게시글을 수정하시려면 관리자 비밀번호를 입력하세요.')) return;
-
-            const post = notices.find(item => item.id === id);
-            if (!post) return;
-
-            isEditMode = true;
-            editPostId = id;
-
-            document.getElementById('formTitleLabel').textContent = '공지 제목 (수정 중)';
-            document.getElementById('btnSave').textContent = '수정완료';
-            document.getElementById('postTitle').value = post.title;
-            document.getElementById('postContent').value = post.content;
-
-            closeModal();
-            document.getElementById('writeForm').style.display = 'block';
-            document.getElementById('btnToggleWrite').style.display = 'none';
-            document.getElementById('writeForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        function closeModal() {
-            document.getElementById('postModal').style.display = 'none';
-        }
-
-        document.getElementById('postModal').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
-        });
-
-        function deletePost(id) {
-            if (!checkAdminPassword('게시글을 삭제하시려면 관리자 비밀번호를 입력하세요.')) return;
-
-            if (confirm('이 공지사항을 정말로 삭제하시겠습니까?')) {
-                notices = notices.filter(item => item.id !== id);
-                persistNotices();
-                alert('삭제되었습니다.');
-                closeModal();
-                renderBoard();
-            }
-        }
-
+        const tempNotices = [...notices];
+        resetFormState();
         renderBoard();
-    </script>
+        generateNewCode(tempNotices);
+    }
+
+    function viewPost(id) {
+        const post = notices.find(item => item.id === id);
+        if(!post) return;
+
+        document.getElementById('modalTitle').textContent = post.title;
+        document.getElementById('modalDate').textContent = `작성일: ${post.date}`;
+        document.getElementById('modalBody').textContent = post.content;
+        
+        const delBtn = document.getElementById('btnDeletePost');
+        delBtn.onclick = () => deletePost(post.id);
+
+        const editBtn = document.getElementById('btnEditPost');
+        editBtn.onclick = () => switchToEditMode(post.id);
+
+        document.getElementById('postModal').style.display = 'flex';
+    }
+
+    function switchToEditMode(id) {
+        const pwd = prompt("게시글을 수정하시려면 관리자 비밀번호를 입력하세요.");
+        if(pwd !== ADMIN_PASSWORD) {
+            if(pwd !== null) alert("비밀번호가 잘못되었습니다.");
+            return;
+        }
+
+        const post = notices.find(item => item.id === id);
+        if(!post) return;
+
+        isEditMode = true;
+        editPostId = id;
+
+        document.getElementById('formTitleLabel').textContent = '공지 제목 (수정 중)';
+        document.getElementById('btnSave').textContent = '수정완료';
+        
+        document.getElementById('postTitle').value = post.title;
+        document.getElementById('postContent').value = post.content;
+
+        closeModal();
+        document.getElementById('writeForm').style.display = 'block';
+        document.getElementById('btnToggleWrite').style.display = 'none';
+        
+        document.getElementById('writeForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.getElementById('postModal').addEventListener('click', function(e) {
+        if(e.target === this) closeModal();
+    });
+
+    function closeModal() {
+        document.getElementById('postModal').style.display = 'none';
+        document.getElementById('btnEditPost').style.display = 'inline-block';
+        document.getElementById('btnDeletePost').style.display = 'inline-block';
+    }
+
+    function deletePost(id) {
+        const pwd = prompt("게시글을 삭제하시려면 관리자 비밀번호를 입력하세요.");
+        if(pwd !== ADMIN_PASSWORD) {
+            if(pwd !== null) alert("비밀번호가 잘못되었습니다.");
+            return;
+        }
+
+        if(confirm("이 공지사항을 정말로 삭제하시겠습니까?")) {
+            notices = notices.filter(item => item.id !== id);
+            alert("삭제되었습니다. 업데이트된 코드를 파일에 반영하세요.");
+            renderBoard();
+            generateNewCode(notices);
+        }
+    }
+
+    renderBoard();
+</script>
+
 </body>
 </html>
