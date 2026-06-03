@@ -113,60 +113,75 @@
             flex-shrink: 0;
         }
 
-        /* ─── [변경 및 추가] 교사 소개 가로 스택 카드 레이아웃 스타일 ─── */
+        /* ─── [변경 및 추가] 포커 카드 스타일 겹침 스택 레이아웃 ─── */
         .profile-container {
             display: flex;
-            gap: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 10px 5px 25px 5px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            margin: 50px auto 30px;
+            padding: 40px 20px;
+            position: relative;
+            height: 480px; /* 카드가 튀어나올 공간 확보 */
         }
-        /* 스크롤바 디자인 숨김/최적화 */
-        .profile-container::-webkit-scrollbar { height: 6px; }
-        .profile-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-        .profile-container::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
-        .profile-container::-webkit-scrollbar-thumb:hover { background: #ccc; }
 
         .profile-card {
-            flex: 0 0 290px;
-            scroll-snap-align: center;
+            position: relative;
+            width: 300px;
+            height: 420px;
             background: #f9f9f9; 
-            padding: 35px 25px; 
-            border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+            padding: 40px 25px; 
+            border-radius: 24px;
+            box-shadow: -4px 8px 24px rgba(0,0,0,0.08);
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            border: 1px solid #eee;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eef0f5;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, z-index 0s;
+            transform-origin: bottom center; /* 부채꼴 회전 기준점 설정 */
         }
         
-        /* 모집중 카드 전용 스타일 */
-        .profile-card.recruiting {
+        /* 포커 패처럼 카드 겹치기 및 살짝 회전 설정 */
+        .card-1 {
+            z-index: 10;
+            transform: rotate(-4deg) translateX(-20px);
+        }
+        .card-2 {
+            z-index: 20;
+            margin-left: -80px; /* 자연스럽게 겹치도록 마이너스 마진 */
+            transform: rotate(4deg) translateX(20px);
+        }
+
+        /* 마우스를 올렸을 때(Hover) 밖으로 튀어나오는 효과 */
+        .profile-card:hover {
+            z-index: 100 !important; /* 가려진 다른 카드보다 무조건 위로 */
+            transform: rotate(0deg) translateY(-50px) scale(1.03); /* 정위치로 돌아오며 위로 상승 */
+            box-shadow: 0 20px 40px rgba(26, 42, 108, 0.15);
             background: #fff;
-            border: 2px dashed #d1d8e0;
+        }
+        
+        /* 모집중 카드 전용 커스텀 */
+        .profile-card.recruiting {
+            background: #fdfdfd;
+            border: 2px dashed #cbd5e1;
             justify-content: center;
-            box-shadow: none;
+            box-shadow: -4px 8px 20px rgba(0,0,0,0.04);
+        }
+        .profile-card.recruiting:hover {
+            border-style: solid;
+            border-color: #f39c12;
+            background: #fff;
         }
         .recruiting-icon {
             font-size: 2.5rem;
             color: #f39c12;
             margin-bottom: 15px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.9; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.9; }
         }
 
         .profile-info { width: 100%; }
-        .profile-info h3 { font-size: 1.4rem; margin: 0 0 5px 0; color: #1a2a6c; text-align: center; }
-        .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 20px; display: block; font-size: 0.85rem; text-align: center; }
+        .profile-info h3 { font-size: 1.5rem; margin: 0 0 6px 0; color: #1a2a6c; text-align: center; font-weight: 800; }
+        .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 25px; display: block; font-size: 0.85rem; text-align: center; }
         
         .profile-list { 
             list-style: none; 
@@ -175,7 +190,7 @@
             text-align: left;
             display: inline-block;
         }
-        .profile-list li { margin-bottom: 10px; font-size: 0.9rem; display: flex; align-items: flex-start; line-height: 1.4; }
+        .profile-list li { margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: flex-start; line-height: 1.4; color: #444; }
         .profile-list li::before { content: '✓'; color: #f39c12; font-weight: bold; margin-right: 8px; flex-shrink: 0; }
         /* ────────────────────────────────────────────────────────────── */
 
@@ -255,25 +270,21 @@
             .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
             .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
             
-            /* ─── [변경] PC 화면에서의 카드 레이아웃 최적화 ─── */
+            /* ─── [변경] 대형 화면 레이아웃 최적화 ─── */
             .profile-container { 
-                justify-content: center; 
-                gap: 30px;
-                overflow-x: visible;
-                padding-bottom: 10px;
+                height: 520px;
+                margin-top: 60px;
             }
             .profile-card { 
-                flex: 0 1 350px; 
-                padding: 45px 35px; 
-                border-radius: 24px; 
+                width: 320px;
+                height: 450px;
             }
-            .profile-card:hover { 
-                transform: translateY(-8px); 
-                box-shadow: 0 12px 30px rgba(26, 42, 108, 0.08); 
-            }
-            .profile-info h3 { font-size: 1.8rem; }
-            .profile-info .sub-title { font-size: 0.95rem; margin-bottom: 25px; }
-            .profile-list li { font-size: 1.05rem; margin-bottom: 14px; }
+            .card-1 { transform: rotate(-5deg) translateX(-30px); }
+            .card-2 { margin-left: -100px; transform: rotate(5deg) translateX(30px); }
+            
+            .profile-info h3 { font-size: 1.7rem; }
+            .profile-info .sub-title { font-size: 0.9rem; }
+            .profile-list li { font-size: 1rem; margin-bottom: 14px; }
             /* ────────────────────────────────────────────────── */
             
             .service-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; }
@@ -348,7 +359,7 @@
         <h2 class="section-title">Instructor Profile</h2>
         <div class="profile-container">
             
-            <div class="profile-card">
+            <div class="profile-card card-1">
                 <div class="profile-info">
                     <h3>John Lee</h3>
                     <span class="sub-title">JETT 대표 인스트럭터</span>
@@ -364,7 +375,7 @@
                 </div>
             </div>
 
-            <div class="profile-card recruiting">
+            <div class="profile-card card-2 recruiting">
                 <div class="profile-info">
                     <div class="recruiting-icon">✉</div>
                     <h3>Elite Instructor</h3>
@@ -376,7 +387,7 @@
                         <li>JETT 교육 철학 연수 예정</li>
                         <li>1:1 및 프리미엄 매칭 전문</li>
                     </ul>
-                    <p style="font-size: 0.85rem; color:#f39c12; margin-top:20px; font-weight:bold;">Join Our Elite Team!</p>
+                    <p style="font-size: 0.85rem; color:#f39c12; margin-top:25px; font-weight:bold;">Join Our Elite Team!</p>
                 </div>
             </div>
 
