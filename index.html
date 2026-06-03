@@ -113,60 +113,55 @@
             flex-shrink: 0;
         }
 
-        /* ─── [변경 및 추가] 포커 카드 스타일 겹침 스택 레이아웃 ─── */
+        /* ─── [변경] 사진 스타일 기반의 평행 겹침(스택) 레이아웃 ─── */
         .profile-container {
             display: flex;
             justify-content: center;
             align-items: center;
             max-width: 100%;
-            margin: 50px auto 30px;
+            margin: 40px auto 20px;
             padding: 40px 20px;
-            position: relative;
-            height: 480px; /* 카드가 튀어나올 공간 확보 */
+            height: 460px; /* 카드가 튀어나올 상단 여백 공간 확보 */
         }
 
         .profile-card {
             position: relative;
-            width: 300px;
-            height: 420px;
+            width: 290px;
+            height: 400px;
             background: #f9f9f9; 
             padding: 40px 25px; 
-            border-radius: 24px;
-            box-shadow: -4px 8px 24px rgba(0,0,0,0.08);
+            border-radius: 20px;
+            box-shadow: -8px 0 24px rgba(0,0,0,0.08); /* 사진처럼 왼쪽 그림자 강조 */
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             border: 1px solid #eef0f5;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, z-index 0s;
-            transform-origin: bottom center; /* 부채꼴 회전 기준점 설정 */
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
         }
         
-        /* 포커 패처럼 카드 겹치기 및 살짝 회전 설정 */
+        /* 사진 속 카드들처럼 전혀 기울이지 않고 평행하게 포개지도록 마진 설정 */
         .card-1 {
             z-index: 10;
-            transform: rotate(-4deg) translateX(-20px);
         }
         .card-2 {
             z-index: 20;
-            margin-left: -80px; /* 자연스럽게 겹치도록 마이너스 마진 */
-            transform: rotate(4deg) translateX(20px);
+            margin-left: -210px; /* 카드의 오른쪽 단면 위주로 보이게 많이 포개는 마진 */
         }
 
-        /* 마우스를 올렸을 때(Hover) 밖으로 튀어나오는 효과 */
+        /* 마우스를 올렸을 때 정위치에서 위로 슥 빠져나오는 인터랙션 */
         .profile-card:hover {
-            z-index: 100 !important; /* 가려진 다른 카드보다 무조건 위로 */
-            transform: rotate(0deg) translateY(-50px) scale(1.03); /* 정위치로 돌아오며 위로 상승 */
-            box-shadow: 0 20px 40px rgba(26, 42, 108, 0.15);
+            z-index: 100 !important; /* 포개진 하위 카드보다 무조건 위로 노출 */
+            transform: translateY(-40px); /* 회전 없이 깔끔하게 수직 상승 */
+            box-shadow: 0 15px 35px rgba(26, 42, 108, 0.15);
             background: #fff;
         }
         
-        /* 모집중 카드 전용 커스텀 */
+        /* 모집중 카드 디자인 */
         .profile-card.recruiting {
             background: #fdfdfd;
             border: 2px dashed #cbd5e1;
             justify-content: center;
-            box-shadow: -4px 8px 20px rgba(0,0,0,0.04);
         }
         .profile-card.recruiting:hover {
             border-style: solid;
@@ -180,7 +175,7 @@
         }
 
         .profile-info { width: 100%; }
-        .profile-info h3 { font-size: 1.5rem; margin: 0 0 6px 0; color: #1a2a6c; text-align: center; font-weight: 800; }
+        .profile-info h3 { font-size: 1.4rem; margin: 0 0 6px 0; color: #1a2a6c; text-align: center; font-weight: 800; }
         .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 25px; display: block; font-size: 0.85rem; text-align: center; }
         
         .profile-list { 
@@ -270,19 +265,18 @@
             .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
             .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
             
-            /* ─── [변경] 대형 화면 레이아웃 최적화 ─── */
+            /* ─── [변경] 대형 화면 기준 스택 세부 조정 ─── */
             .profile-container { 
-                height: 520px;
-                margin-top: 60px;
+                height: 500px;
+                margin-top: 50px;
             }
             .profile-card { 
                 width: 320px;
-                height: 450px;
+                height: 440px;
             }
-            .card-1 { transform: rotate(-5deg) translateX(-30px); }
-            .card-2 { margin-left: -100px; transform: rotate(5deg) translateX(30px); }
+            .card-2 { margin-left: -230px; } /* PC 고해상도 환경에 맞춘 최적화 포개짐 */
             
-            .profile-info h3 { font-size: 1.7rem; }
+            .profile-info h3 { font-size: 1.6rem; }
             .profile-info .sub-title { font-size: 0.9rem; }
             .profile-list li { font-size: 1rem; margin-bottom: 14px; }
             /* ────────────────────────────────────────────────── */
