@@ -3,7 +3,884 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JETT(Johns Elite Teaching Team) - 엘리트 영어교사로 구성된 <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>JETT(Johns Elite Teaching Team) - 엘리트 영어교사로 구성된 팀</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; font-family: 'Pretendard', sans-serif; line-height: 1.6; color: #333; word-break: keep-all; }
+        
+        header { 
+            background: #fff; 
+            padding: 0 20px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid #eee; 
+            position: fixed; 
+            width: 100%; 
+            height: 60px;
+            top: 0; 
+            z-index: 1000; 
+        }
+        .logo { font-size: 22px; font-weight: 800; color: #1a2a6c; cursor: pointer; }
+        
+        nav { display: flex; align-items: center; height: 100%; }
+        .nav-item { position: relative; margin-left: 12px; height: 100%; display: flex; align-items: center; cursor: pointer; }
+        .nav-link { text-decoration: none; color: #555; font-weight: 600; padding: 10px 5px; font-size: 14px; }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            top: 60px; 
+            right: 0;
+            border: 1px solid #eee;
+            z-index: 1001;
+        }
+        .dropdown-content a {
+            color: #555;
+            padding: 14px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+            border-bottom: 1px solid #f9f9f9;
+            cursor: pointer;
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .nav-item.active-menu .dropdown-content { display: block; }
+
+        .content-section { 
+            display: none; 
+            padding: 90px 20px 60px; 
+            min-height: 100vh; 
+            opacity: 0; 
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+        .content-section.active { 
+            display: block; 
+            opacity: 1; 
+            transform: translateY(0);
+        }
+
+        .hero { 
+            height: 80vh; 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('image/Gemini_Generated_Image_gp9vwrgp9vwrgp9v.png'); 
+            background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            text-align: center; color: #fff; border-radius: 0 0 24px 24px;
+            margin-top: -30px;
+        }
+        .hero h1 { font-size: 1.8rem; margin-bottom: 15px; padding: 0 20px; line-height: 1.4; font-weight: 800; }
+        .hero p { font-size: 0.95rem; opacity: 0.9; margin: 0; padding: 0 20px; }
+        .btn { 
+            margin-top: 25px; padding: 14px 36px; background: #f39c12; color: #fff; 
+            border: none; border-radius: 50px; font-weight: bold; cursor: pointer; 
+            font-size: 0.95rem; box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+            transition: background 0.2s;
+        }
+
+        .section-title { text-align: center; font-size: 1.6rem; color: #1a2a6c; margin-bottom: 25px; font-weight: 800; }
+        
+        .intro-wrapper { max-width: 750px; margin: 0 auto; text-align: center; padding: 0 5px; }
+        .intro-wrapper .p-main { 
+            font-size: 1.15rem; 
+            line-height: 1.75; 
+            margin-bottom: 30px; 
+            letter-spacing: -0.03em;
+        }
+
+        .intro-wrapper .p-sub { 
+            font-size: 0.95rem; 
+            color: #555; 
+            margin: 14px auto; 
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            width: max-content;
+            max-width: 100%;
+        }
+        .intro-wrapper .p-sub::before {
+            content: '✓';
+            color: #f39c12;
+            font-weight: bold;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        /* ─── [변경] 테두리 하이라이트 통일화 트럼프 패 레이아웃 ─── */
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            margin: 40px auto 20px;
+            padding: 40px 10px;
+            height: 460px; 
+            position: relative;
+        }
+
+        .profile-card {
+            position: relative;
+            width: 280px;
+            height: 400px;
+            background: #f9f9f9; 
+            padding: 35px 20px; 
+            border-radius: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid #eef0f5; /* 테두리 변화가 부드럽도록 두께를 2px로 맞춤 */
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, z-index 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .card-1 {
+            z-index: 20; 
+            box-shadow: 4px 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .card-2 {
+            z-index: 10; 
+            margin-left: -140px; 
+            box-shadow: -4px 4px 15px rgba(0,0,0,0.04);
+        }
+
+        /* [수정] 내 카드(card-1)와 모집중 카드(card-2) 모두 호버/터치 시 오렌지색 테두리 하이라이트 적용 */
+        .profile-card:hover, .profile-card:focus-within {
+            z-index: 100 !important; 
+            transform: translateY(-45px); 
+            box-shadow: 0 15px 35px rgba(26, 42, 108, 0.15);
+            background: #fff;
+            border-color: #f39c12; /* 오렌지색 테두리 활성화 */
+        }
+        
+        /* 모집중 전용 스타일 - 점선 기본값 */
+        .profile-card.recruiting {
+            background: #fdfdfd;
+            border-style: dashed;
+            border-color: #cbd5e1;
+            justify-content: center; 
+        }
+        /* 모집중 카드가 활성화되면 점선을 실선으로 전환 */
+        .profile-card.recruiting:hover, .profile-card.recruiting:focus-within {
+            border-style: solid;
+            border-color: #f39c12;
+        }
+        
+        .recruiting-icon {
+            font-size: 2.5rem;
+            color: #f39c12;
+            margin-bottom: 8px;
+        }
+        .recruiting-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1a2a6c;
+            letter-spacing: -0.03em;
+            margin: 0;
+        }
+        .recruiting-sub {
+            font-size: 0.85rem;
+            color: #f39c12;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .profile-info { width: 100%; }
+        .profile-info h3 { font-size: 1.35rem; margin: 0 0 6px 0; color: #1a2a6c; text-align: center; font-weight: 800; }
+        .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 25px; display: block; font-size: 0.85rem; text-align: center; }
+        
+        .profile-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+            text-align: left;
+            display: inline-block;
+        }
+        .profile-list li { margin-bottom: 10px; font-size: 0.85rem; display: flex; align-items: flex-start; line-height: 1.4; color: #444; }
+        .profile-list li::before { content: '✓'; color: #f39c12; font-weight: bold; margin-right: 8px; flex-shrink: 0; }
+
+
+
+        /* ─── 오류 수정용 기본 스타일 보강 ─── */
+        a { color: inherit; cursor: pointer; }
+        button { font-family: inherit; }
+        body { overflow-x: hidden; background: #fff; }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .service-item {
+            background: #fff;
+            border: 1px solid #eef0f5;
+            border-radius: 14px;
+            padding: 32px 22px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+        }
+        .service-item h3 {
+            margin: 0 0 10px;
+            color: #1a2a6c;
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+        .service-item p {
+            margin: 0;
+            color: #555;
+            font-size: 0.98rem;
+        }
+
+        .contact-box {
+            max-width: 380px;
+            margin: 0 auto;
+            padding: 36px 24px;
+            background: #f9f9f9;
+            border: 1px solid #eef0f5;
+            border-radius: 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+        .contact-box p { margin: 0 0 20px; color: #555; }
+        .contact-box p:last-child { margin-bottom: 0; }
+        .contact-box strong { color: #1a2a6c; font-size: 1.05rem; }
+        .contact-box a {
+            color: #1a2a6c;
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 2px solid #f39c12;
+            padding-bottom: 2px;
+        }
+        .board-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2px;
+        }
+        .board-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 14px;
+        }
+        .write-form {
+            display: none;
+            background: #fff;
+            border: 1px solid #eef0f5;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+        }
+        .form-group { margin-bottom: 16px; text-align: left; }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #1a2a6c;
+        }
+        .form-control {
+            width: 100%;
+            border: 1px solid #d8dee9;
+            border-radius: 10px;
+            padding: 13px 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: #f39c12;
+            box-shadow: 0 0 0 3px rgba(243,156,18,0.12);
+        }
+        textarea.form-control { resize: vertical; min-height: 160px; }
+
+        .btn-sm {
+            padding: 9px 18px;
+            border: none;
+            border-radius: 999px;
+            background: #1a2a6c;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        .btn-secondary {
+            background: #eef0f5;
+            color: #333;
+            margin-right: 8px;
+        }
+
+        .board-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+            font-size: 0.9rem;
+        }
+        .board-table th {
+            background: #1a2a6c;
+            color: #fff;
+            padding: 13px 10px;
+            font-weight: 700;
+        }
+        .board-table td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #f0f2f6;
+            color: #444;
+        }
+        .board-table tr:last-child td { border-bottom: none; }
+        .board-table td.title {
+            cursor: pointer;
+            font-weight: 600;
+            color: #1a2a6c;
+        }
+        .board-table td.title:hover { text-decoration: underline; }
+        .board-table td.center { text-align: center; color: #666; }
+        .col-num { width: 52px; }
+        .col-date { width: 90px; }
+        .no-data { text-align: center; color: #888; padding: 30px 10px !important; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.45);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            width: min(100%, 560px);
+            max-height: 82vh;
+            overflow-y: auto;
+            background: #fff;
+            border-radius: 18px;
+            padding: 26px 22px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+        .modal-title {
+            margin: 0 0 8px;
+            color: #1a2a6c;
+            font-size: 1.3rem;
+            font-weight: 800;
+            line-height: 1.35;
+        }
+        .modal-date {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+        }
+        .modal-body {
+            color: #333;
+            line-height: 1.75;
+            white-space: pre-wrap;
+            word-break: break-word;
+            min-height: 80px;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 22px;
+        }
+
+        @media (max-width: 420px) {
+            header { padding: 0 12px; }
+            .logo { font-size: 19px; }
+            .nav-item { margin-left: 6px; }
+            .nav-link { font-size: 12px; padding: 10px 3px; }
+            .profile-container { height: 430px; padding-left: 0; padding-right: 0; }
+            .profile-card { width: 255px; height: 380px; padding: 28px 18px; }
+            .card-2 { margin-left: -132px; }
+            .profile-card:hover, .profile-card:focus-within { transform: translateY(-25px); }
+            .board-table { font-size: 0.8rem; }
+            .board-table th, .board-table td { padding: 11px 6px; }
+        }
+
+        @media (min-width: 1024px) {
+            header { height: 80px; padding: 0 8%; }
+            .logo { font-size: 28px; }
+            .nav-item { margin-left: 30px; }
+            .nav-link { font-size: 16px; padding: 15px 10px; }
+            
+            .nav-item:hover .dropdown-content { display: block; }
+            .dropdown-content { top: 75px; min-width: 140px; }
+            .dropdown-content a { font-size: 15px; padding: 15px 20px; }
+            
+            .content-section { padding: 140px 20px 80px; }
+            
+            .hero { height: 85vh; border-radius: 0 0 40px 40px; }
+            .hero h1 { 
+                font-size: 3.5rem; 
+                margin-bottom: 20px; 
+                line-height: 1.3; 
+                white-space: nowrap; 
+                padding: 0 40px;
+            }
+            .hero p { font-size: 1.3rem; }
+            .btn { font-size: 1.1rem; padding: 18px 50px; margin-top: 35px; }
+            .btn:hover { background: #e67e22; }
+
+            .section-title { font-size: 2.4rem; margin-bottom: 45px; }
+            
+            .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
+            .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
+            
+            .profile-container { 
+                height: 500px;
+                margin-top: 50px;
+                padding: 40px 20px;
+            }
+            .profile-card { 
+                width: 320px;
+                height: 440px;
+                padding: 45px 30px;
+            }
+            .card-2 { margin-left: -220px; } 
+            
+            .profile-info h3 { font-size: 1.6rem; }
+            .profile-info .sub-title { font-size: 0.9rem; }
+            .profile-list li { font-size: 1rem; margin-bottom: 14px; }
+            .recruiting-text { font-size: 1.6rem; }
+            
+            .service-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; }
+            .service-item { padding: 50px 30px; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
+            .service-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+            .service-item h3 { font-size: 1.6rem; }
+            .service-item p { font-size: 1.1rem; }
+
+            .contact-box { max-width: 450px; padding: 50px 40px; }
+            .contact-box p { font-size: 1.2rem; }
+
+            .board-wrapper { padding: 0; }
+            .board-table { font-size: 1rem; }
+            .board-table th, .board-table td { padding: 16px 15px; }
+            .btn-sm { font-size: 0.95rem; padding: 10px 24px; }
+            
+            .col-num { width: 70px; }
+            .col-date { width: 130px; }
+            .board-table td.center { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo" onclick="showSection('home')">JETT</div>
+    <nav>
+        <div class="nav-item" onclick="toggleMenu(event, this)">
+            <span class="nav-link">JETT ▾</span>
+            <div class="dropdown-content">
+                <a onclick="event.stopPropagation(); showSection('jett-intro')">JETT 소개</a>
+                <a onclick="event.stopPropagation(); showSection('about')">교사 소개</a>
+            </div>
+        </div>
+        <div class="nav-item">
+            <a class="nav-link" onclick="showSection('service')">서비스</a>
+        </div>
+        <div class="nav-item" onclick="toggleMenu(event, this)">
+            <span class="nav-link">커뮤니티 ▾</span>
+            <div class="dropdown-content">
+                <a onclick="event.stopPropagation(); showSection('notice')">공지사항</a>
+            </div>
+        </div>
+        <div class="nav-item">
+            <a class="nav-link" onclick="showSection('contact')">문의</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section id="home" class="content-section active">
+        <div class="hero">
+            <h1>당신이 있는 곳이<br>&nbsp;강의실이 됩니다</h1>
+            <p>영어 교육 전문가들의 맞춤형 프리미엄 수업</p>
+            <button class="btn" onclick="showSection('contact')">무료 상담 신청하기</button>
+        </div>
+    </section>
+
+    <section id="jett-intro" class="content-section">
+        <h2 class="section-title">About JETT</h2>
+        <div class="intro-wrapper">
+            <p class="p-main">
+                JETT(Johns Elite Teaching Team)는<br>
+                <strong>엘리트 영어교사</strong>로 구성된 팀입니다.
+            </p>
+            <p class="p-sub">학습자가 원하는 장소에서 최고의 수업을 제공합니다.</p>
+            <p class="p-sub">지속적인 교수법 연구로 최상의 수업을 제공합니다.</p>
+        </div>
+    </section>
+
+    <!-- ─── [수정 완료] 하이라이트 효과가 모두 적용된 교사 소개 섹션 ─── -->
+    <section id="about" class="content-section">
+        <h2 class="section-title">Instructor Profile</h2>
+        <div class="profile-container">
+            
+            <!-- 첫 번째 카드: 대표 프로필 -->
+            <div class="profile-card card-1" tabindex="0">
+                <div class="profile-info">
+                    <h3>John Lee</h3>
+                    <span class="sub-title">JETT 대표 인스트럭터</span>
+                    
+                    <ul class="profile-list">
+                        <li>JETT 대표</li>
+                        <li>교육청 정식 등록</li>
+                        <li>CELTA 자격증 소지 (TESOL 상위급)</li>
+                        <li>케임브리지 대학교 인증 교사</li>
+                        <li>AI 응용 교수법 연구</li>
+                        <li>대한민국 육군 병장 만기 전역</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 두 번째 카드: 모집중 카드 -->
+            <div class="profile-card card-2 recruiting" tabindex="0">
+                <div class="recruiting-icon">✉</div>
+                <h3 class="recruiting-text">모집중</h3>
+                <div class="recruiting-sub">Elite Instructor</div>
+            </div>
+
+        </div>
+    </section>
+    <!-- ────────────────────────────────────────────────────────────── -->
+
+    <section id="service" class="content-section">
+        <h2 class="section-title">Our Services</h2>
+        <div class="service-grid">
+            <div class="service-item">
+                <h3>1:1 레슨</h3>
+                <p>프리미엄 맞춤 수업</p>
+            </div>
+            <div class="service-item">
+                <h3>그룹 레슨</h3>
+                <p>시스템화된 그룹 수업</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="notice" class="content-section">
+        <h2 class="section-title">Notice</h2>
+        <div class="board-wrapper">
+            
+            <div id="writeForm" class="write-form">
+                <div class="form-group">
+                    <label id="formTitleLabel" for="postTitle">공지 제목</label>
+                    <input type="text" id="postTitle" class="form-control" placeholder="제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="postContent">공지 내용</label>
+                    <textarea id="postContent" class="form-control" rows="8" placeholder="공지할 내용을 입력하세요"></textarea>
+                </div>
+                <div style="text-align: right;">
+                    <button class="btn-sm btn-secondary" onclick="cancelWriteForm()">취소</button>
+                    <button id="btnSave" class="btn-sm" onclick="savePost()">등록하기</button>
+                </div>
+            </div>
+
+            <div class="board-header">
+                <button id="btnToggleWrite" class="btn-sm" onclick="openWriteForm()">공지작성</button>
+            </div>
+
+            <table class="board-table">
+                <thead>
+                    <tr>
+                        <th class="col-num">번호</th>
+                        <th>제목</th>
+                        <th class="col-date">작성일</th>
+                    </tr>
+                </thead>
+                <tbody id="boardList"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section" style="text-align: center;">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-box">
+            <p>전화<br><strong><a href="tel:010-5861-7928">010-5861-7928</a></strong></p>
+            <p>이메일<br><strong><a href="mailto:jett_biz@naver.com">jett_biz@naver.com</a></strong></p>
+            <p style="color: #888; font-size: 0.85rem; margin-top: 30px;">* 모든 상담은 예약제로 운영됩니다.</p>
+        </div>
+    </section>
+</main>
+
+<div id="postModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle" class="modal-title">공지사항 제목</h3>
+        <div id="modalDate" class="modal-date">26-05-20</div>
+        <div id="modalBody" class="modal-body">공지사항 내용</div>
+        <div class="modal-footer">
+            <button id="btnEditPost" class="btn-sm" style="background:#f39c12; color:#fff;">수정</button>
+            <button id="btnDeletePost" class="btn-sm" style="background:#e74c3c; color:#fff;">삭제</button>
+            <button class="btn-sm btn-secondary" style="margin-right:0;" onclick="closeModal()">닫기</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const ADMIN_PASSWORD = "13579Lee@";
+
+    let isEditMode = false;
+    let editPostId = null;
+
+    let notices = [
+        {
+            "id": 1716161600000, 
+            "title": "JETT 오픈 준비 중입니다.",
+            "content": "안녕하세요, JETT입니다!\n\n현재 최고의 교육 프로그램을 위해 설레는 마음으로 오픈을 준비하고 있습니다. ^.^\n\n열심히 준비해서 곧 찾아뵙겠습니다!\n\n감사합니다.\n\nJETT 대표 드림",
+            "date": "26-05-20"
+        }
+    ];
+
+    function showSection(id) {
+        const sections = document.querySelectorAll('.content-section');
+        sections.forEach(section => { section.classList.remove('active'); });
+        
+        const target = document.getElementById(id);
+        if (target) { target.classList.add('active'); }
+        
+        const activeMenus = document.querySelectorAll('.nav-item.active-menu');
+        activeMenus.forEach(menu => menu.classList.remove('active-menu'));
+
+        if(id === 'notice') {
+            resetFormState();
+            renderBoard();
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMenu(event, elem) {
+        if (window.innerWidth < 1024) {
+            if (event.target.tagName === 'A') return;
+            event.stopPropagation();
+            const activeMenus = document.querySelectorAll('.nav-item.active-menu');
+            activeMenus.forEach(menu => { if(menu !== elem) menu.classList.remove('active-menu'); });
+            elem.classList.toggle('active-menu');
+        }
+    }
+
+    window.addEventListener('click', function(e) {
+        if (!e.target.closest('.nav-item')) {
+            const activeMenus = document.querySelectorAll('.nav-item.active-menu');
+            activeMenus.forEach(menu => menu.classList.remove('active-menu'));
+        }
+    });
+
+    function renderBoard() {
+        const listContainer = document.getElementById('boardList');
+        listContainer.innerHTML = '';
+
+        if(notices.length === 0) {
+            listContainer.innerHTML = `<tr><td colspan="3" class="no-data">등록된 공지사항이 없습니다.</td></tr>`;
+            return;
+        }
+
+        const reversedNotices = [...notices].reverse();
+
+        reversedNotices.forEach((post, index) => {
+            const tr = document.createElement('tr');
+            
+            const numTd = document.createElement('td');
+            numTd.className = 'center';
+            numTd.textContent = notices.length - index;
+            
+            const titleTd = document.createElement('td');
+            titleTd.className = 'title';
+            titleTd.textContent = post.title;
+            titleTd.onclick = () => viewPost(post.id);
+            
+            const dateTd = document.createElement('td');
+            dateTd.className = 'center date-cell';
+            dateTd.textContent = post.date;
+
+            tr.appendChild(numTd);
+            tr.appendChild(titleTd);
+            tr.appendChild(dateTd);
+            listContainer.appendChild(tr);
+        });
+    }
+
+    function resetFormState() {
+        isEditMode = false;
+        editPostId = null;
+        document.getElementById('writeForm').style.display = 'none';
+        document.getElementById('btnToggleWrite').style.display = 'block';
+        document.getElementById('formTitleLabel').textContent = '공지 제목';
+        document.getElementById('btnSave').textContent = '등록하기';
+        document.getElementById('postTitle').value = '';
+        document.getElementById('postContent').value = '';
+    }
+
+    function openWriteForm() {
+        const pwd = prompt("공지사항 작성을 위해 관리자 비밀번호를 입력하세요.");
+        if(pwd !== ADMIN_PASSWORD) {
+            if(pwd !== null) alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        resetFormState();
+        document.getElementById('writeForm').style.display = 'block';
+        document.getElementById('btnToggleWrite').style.display = 'none';
+    }
+
+    function cancelWriteForm() {
+        resetFormState();
+    }
+
+    function generateNewCode(updatedNotices) {
+        const codeString = `let notices = ${JSON.stringify(updatedNotices, null, 8)};`;
+        
+        const textarea = document.createElement('textarea');
+        textarea.value = codeString;
+        textarea.style.width = '100%';
+        textarea.style.height = '200px';
+        textarea.style.marginTop = '15px';
+        textarea.style.fontFamily = 'monospace';
+        textarea.readOnly = true;
+
+        const container = document.createElement('div');
+        container.innerHTML = `<p style="font-weight:bold; color:#e74c3c; margin:0;">⚠️ 모바일 반영을 위한 필수 단계!</p>
+                               <p style="font-size:12px; color:#666; margin:5px 0 15px 0;">아래 텍스트 상자의 코드를 전체 복사하여, HTML 파일 하단의 고정 데이터 영역에 덮어씌운 후 서버에 업로드하세요.</p>`;
+        container.appendChild(textarea);
+
+        document.getElementById('modalTitle').textContent = "🎉 변경된 소스코드 생성 완료";
+        document.getElementById('modalDate').textContent = "";
+        document.getElementById('modalBody').innerHTML = "";
+        document.getElementById('modalBody').appendChild(container);
+        
+        document.getElementById('btnEditPost').style.display = 'none';
+        document.getElementById('btnDeletePost').style.display = 'none';
+        
+        document.getElementById('postModal').style.display = 'flex';
+    }
+
+    function savePost() {
+        const title = document.getElementById('postTitle').value.trim();
+        const content = document.getElementById('postContent').value.trim();
+
+        if(!title || !content) {
+            alert("제목과 내용을 모두 입력해 주세요.");
+            return;
+        }
+
+        if (isEditMode) {
+            const postIndex = notices.findIndex(item => item.id === editPostId);
+            if (postIndex > -1) {
+                notices[postIndex].title = title;
+                notices[postIndex].content = content;
+                alert("공지사항이 성공적으로 수정되었습니다.\n생성된 코드를 복사하세요.");
+            }
+        } else {
+            const today = new Date();
+            const yy = String(today.getFullYear()).slice(-2);
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const dateString = `${yy}-${mm}-${dd}`;
+
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                date: dateString
+            };
+
+            notices.push(newPost);
+            alert("공지사항이 성공적으로 등록되었습니다.\n생성된 코드를 복사하세요.");
+        }
+
+        const tempNotices = [...notices];
+        resetFormState();
+        renderBoard();
+        generateNewCode(tempNotices);
+    }
+
+    function viewPost(id) {
+        const post = notices.find(item => item.id === id);
+        if(!post) return;
+
+        document.getElementById('modalTitle').textContent = post.title;
+        document.getElementById('modalDate').textContent = `작성일: ${post.date}`;
+        document.getElementById('modalBody').textContent = post.content;
+        
+        const delBtn = document.getElementById('btnDeletePost');
+        delBtn.onclick = () => deletePost(post.id);
+
+        const editBtn = document.getElementById('btnEditPost');
+        editBtn.onclick = () => switchToEditMode(post.id);
+
+        document.getElementById('postModal').style.display = 'flex';
+    }
+
+    function switchToEditMode(id) {
+        const pwd = prompt("게시글을 수정하시려면 관리자 비밀번호를 입력하세요.");
+        if(pwd !== ADMIN_PASSWORD) {
+            if(pwd !== null) alert("비밀번호가 잘못되었습니다.");
+            return;
+        }
+
+        const post = notices.find(item => item.id === id);
+        if(!post) return;
+
+        isEditMode = true;
+        editPostId = id;
+
+        document.getElementById('formTitleLabel').textContent = '공지 제목 (수정 중)';
+        document.getElementById('btnSave').textContent = '수정완료';
+        
+        document.getElementById('postTitle').value = post.title;
+        document.getElementById('postContent').value = post.content;
+
+        closeModal();
+        document.getElementById('writeForm').style.display = 'block';
+        document.getElementById('btnToggleWrite').style.display = 'none';
+        
+        document.getElementById('writeForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.getElementById('postModal').addEventListener('click', function(e) {
+        if(e.target === this) closeModal();
+    });
+
+    function closeModal() {
+        document.getElementById('postModal').style.display = 'none';
+        document.getElementById('btnEditPost').style.display = 'inline-block';
+        document.getElementById('btnDeletePost').style.display = 'inline-block';
+    }
+
+    function deletePost(id) {
+        const pwd = prompt("게시글을 삭제하시려면 관리자 비밀번호를 입력하세요.");
+        if(pwd !== ADMIN_PASSWORD) {
+            if(pwd !== null) alert("비밀번호가 잘못되었습니다.");
+            return;
+        }
+
+        if(confirm("이 공지사항을 정말로 삭제하시겠습니까?")) {
+            notices = notices.filter(item => item.id !== id);
+            alert("삭제되었습니다. 업데이트된 코드를 파일에 반영하세요.");
+            renderBoard();
+            generateNewCode(notices);
+        }
+    }
+
+    renderBoard();
+</script>
+
+</body>
+</html>팀</title>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         
