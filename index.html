@@ -113,7 +113,7 @@
             flex-shrink: 0;
         }
 
-        /* ─── [수정] 대표 프로필 최상단 노출 포커 카드 레이아웃 ─── */
+        /* ─── [수정] 사진에 맞춰 간격을 극도로 좁힌 초밀착 카드 레이아웃 ─── */
         .profile-container {
             display: flex;
             justify-content: center;
@@ -139,18 +139,20 @@
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
         }
         
-        /* 대표님 카드가 모집중 카드 위로 쌓이도록 마진 및 z-index 완전 역배치 */
+        /* 대표 인스트럭터 카드 (제일 위로 쌓여서 먼저 보임) */
         .card-1 {
-            z-index: 20; /* 대표님 프로필을 최상위로 설정 */
-            box-shadow: 8px 0 24px rgba(0,0,0,0.1); /* 위에 쌓이므로 오른쪽 그림자 강조 */
+            z-index: 20; 
+            box-shadow: 10px 0 25px rgba(0,0,0,0.12); /* 겹치는 부분 경계선 입체감을 위해 우측 그림자 강조 */
         }
+        
+        /* 모집중 카드 (사진처럼 인덱스 부분만 아주 좁게 보이도록 밀착 조절) */
         .card-2 {
-            z-index: 10; /* 모집중 카드를 아래로 배치 */
-            margin-left: -80px; /* 대표님 카드 아래로 자연스럽게 파고들도록 마진 설정 */
-            box-shadow: -4px 0 16px rgba(0,0,0,0.04);
+            z-index: 10; 
+            margin-left: -245px; /* 카드가 촘촘하게 겹치도록 대폭 줄임 (카드 너비 290px 중 45px만 노출) */
+            box-shadow: -4px 0 16px rgba(0,0,0,0.03);
         }
 
-        /* 마우스를 올렸을 때 위로 빠져나오는 인터랙션 */
+        /* 호버 시 깔끔하게 상단으로 쏙 올라오는 애니메이션 */
         .profile-card:hover {
             z-index: 100 !important; 
             transform: translateY(-40px); 
@@ -158,7 +160,7 @@
             background: #fff;
         }
         
-        /* 모집중 카드 디자인 */
+        /* 모집중 카드 커스텀 */
         .profile-card.recruiting {
             background: #fdfdfd;
             border: 2px dashed #cbd5e1;
@@ -266,7 +268,7 @@
             .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
             .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
             
-            /* ─── [변경] PC 고해상도 환경에 맞춘 스택 배치 세부 조정 ─── */
+            /* ─── [변경] PC 고해상도 모니터용 초밀착 간격 세부 조율 ─── */
             .profile-container { 
                 height: 500px;
                 margin-top: 50px;
@@ -275,7 +277,7 @@
                 width: 320px;
                 height: 440px;
             }
-            .card-2 { margin-left: -90px; } /* PC 화면 비율에 맞춘 겹침 간격 */
+            .card-2 { margin-left: -270px; } /* 넓은 화면에서도 밀착도를 완벽하게 고정 */
             
             .profile-info h3 { font-size: 1.6rem; }
             .profile-info .sub-title { font-size: 0.9rem; }
@@ -319,399 +321,3 @@
         </div>
         <div class="nav-item" onclick="toggleMenu(event, this)">
             <span class="nav-link">커뮤니티 ▾</span>
-            <div class="dropdown-content">
-                <a onclick="event.stopPropagation(); showSection('notice')">공지사항</a>
-            </div>
-        </div>
-        <div class="nav-item">
-            <a class="nav-link" onclick="showSection('contact')">문의</a>
-        </div>
-    </nav>
-</header>
-
-<main>
-    <section id="home" class="content-section active">
-        <div class="hero">
-            <h1>당신이 있는 곳이<br>&nbsp;강의실이 됩니다</h1>
-            <p>영어 교육 전문가들의 맞춤형 프리미엄 수업</p>
-            <button class="btn" onclick="showSection('contact')">무료 상담 신청하기</button>
-        </div>
-    </section>
-
-    <section id="jett-intro" class="content-section">
-        <h2 class="section-title">About JETT</h2>
-        <div class="intro-wrapper">
-            <p class="p-main">
-                JETT(Johns Elite Teaching Team)는<br>
-                <strong>엘리트 영어교사</strong>로 구성된 팀입니다.
-            </p>
-            <p class="p-sub">학습자가 원하는 장소에서 최고의 수업을 제공합니다.</p>
-            <p class="p-sub">지속적인 교수법 연구로 최상의 수업을 제공합니다.</p>
-        </div>
-    </section>
-
-    <!-- ─── [변경 완료] 대표 프로필이 무조건 최상단에 오는 카드 섹션 ─── -->
-    <section id="about" class="content-section">
-        <h2 class="section-title">Instructor Profile</h2>
-        <div class="profile-container">
-            
-            <!-- 첫 번째 카드: John Lee 대표 프로필 (z-index가 높아 제일 위에 위치) -->
-            <div class="profile-card card-1">
-                <div class="profile-info">
-                    <h3>John Lee</h3>
-                    <span class="sub-title">JETT 대표 인스트럭터</span>
-                    
-                    <ul class="profile-list">
-                        <li>JETT 대표</li>
-                        <li>교육청 정식 등록</li>
-                        <li>CELTA 자격증 소지 (TESOL 상위급)</li>
-                        <li>케임브리지 대학교 인증 교사</li>
-                        <li>AI 응용 교수법 연구</li>
-                        <li>대한민국 육군 병장 만기 전역</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 두 번째 카드: 신규 모집 카드 (대표님 카드 아래 깔리며 오른쪽으로 포개짐) -->
-            <div class="profile-card card-2 recruiting">
-                <div class="profile-info">
-                    <div class="recruiting-icon">✉</div>
-                    <h3>Elite Instructor</h3>
-                    <span class="sub-title" style="color: #888;">추가 인스트럭터 초빙 중</span>
-                    
-                    <ul class="profile-list" style="color: #666;">
-                        <li>최고의 교수 역량을 지닌 인재</li>
-                        <li>검증된 교육 자격 요건 검토 중</li>
-                        <li>JETT 교육 철학 연수 예정</li>
-                        <li>1:1 및 프리미엄 매칭 전문</li>
-                    </ul>
-                    <p style="font-size: 0.85rem; color:#f39c12; margin-top:25px; font-weight:bold;">Join Our Elite Team!</p>
-                </div>
-            </div>
-
-        </div>
-    </section>
-    <!-- ────────────────────────────────────────────────────────────── -->
-
-    <section id="service" class="content-section">
-        <h2 class="section-title">Our Services</h2>
-        <div class="service-grid">
-            <div class="service-item">
-                <h3>1:1 레슨</h3>
-                <p>프리미엄 맞춤 수업</p>
-            </div>
-            <div class="service-item">
-                <h3>그룹 레슨</h3>
-                <p>시스템화된 그룹 수업</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="notice" class="content-section">
-        <h2 class="section-title">Notice</h2>
-        <div class="board-wrapper">
-            
-            <div id="writeForm" class="write-form">
-                <div class="form-group">
-                    <label id="formTitleLabel" for="postTitle">공지 제목</label>
-                    <input type="text" id="postTitle" class="form-control" placeholder="제목을 입력하세요">
-                </div>
-                <div class="form-group">
-                    <label for="postContent">공지 내용</label>
-                    <textarea id="postContent" class="form-control" rows="8" placeholder="공지할 내용을 입력하세요"></textarea>
-                </div>
-                <div style="text-align: right;">
-                    <button class="btn-sm btn-secondary" onclick="cancelWriteForm()">취소</button>
-                    <button id="btnSave" class="btn-sm" onclick="savePost()">등록하기</button>
-                </div>
-            </div>
-
-            <div class="board-header">
-                <button id="btnToggleWrite" class="btn-sm" onclick="openWriteForm()">공지작성</button>
-            </div>
-
-            <table class="board-table">
-                <thead>
-                    <tr>
-                        <th class="col-num">번호</th>
-                        <th>제목</th>
-                        <th class="col-date">작성일</th>
-                    </tr>
-                </thead>
-                <tbody id="boardList"></tbody>
-            </table>
-        </div>
-    </section>
-
-    <section id="contact" class="content-section" style="text-align: center;">
-        <h2 class="section-title">Contact Us</h2>
-        <div class="contact-box">
-            <p>전화<br><strong><a href="tel:010-5861-7928">010-5861-7928</a></strong></p>
-            <p>이메일<br><strong><a href="mailto:jett_biz@naver.com">jett_biz@naver.com</a></strong></p>
-            <p style="color: #888; font-size: 0.85rem; margin-top: 30px;">* 모든 상담은 예약제로 운영됩니다.</p>
-        </div>
-    </section>
-</main>
-
-<div id="postModal" class="modal">
-    <div class="modal-content">
-        <h3 id="modalTitle" class="modal-title">공지사항 제목</h3>
-        <div id="modalDate" class="modal-date">26-05-20</div>
-        <div id="modalBody" class="modal-body">공지사항 내용</div>
-        <div class="modal-footer">
-            <button id="btnEditPost" class="btn-sm" style="background:#f39c12; color:#fff;">수정</button>
-            <button id="btnDeletePost" class="btn-sm" style="background:#e74c3c; color:#fff;">삭제</button>
-            <button class="btn-sm btn-secondary" style="margin-right:0;" onclick="closeModal()">닫기</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    const ADMIN_PASSWORD = "13579Lee@";
-
-    let isEditMode = false;
-    let editPostId = null;
-
-    let notices = [
-        {
-            "id": 1716161600000, 
-            "title": "JETT 오픈 준비 중입니다.",
-            "content": "안녕하세요, JETT입니다!\n\n현재 최고의 교육 프로그램을 위해 설레는 마음으로 오픈을 준비하고 있습니다. ^.^\n\n열심히 준비해서 곧 찾아뵙겠습니다!\n\n감사합니다.\n\nJETT 대표 드림",
-            "date": "26-05-20"
-        }
-    ];
-
-    function showSection(id) {
-        const sections = document.querySelectorAll('.content-section');
-        sections.forEach(section => { section.classList.remove('active'); });
-        
-        const target = document.getElementById(id);
-        if (target) { target.classList.add('active'); }
-        
-        const activeMenus = document.querySelectorAll('.nav-item.active-menu');
-        activeMenus.forEach(menu => menu.classList.remove('active-menu'));
-
-        if(id === 'notice') {
-            resetFormState();
-            renderBoard();
-        }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function toggleMenu(event, elem) {
-        if (window.innerWidth < 1024) {
-            if (event.target.tagName === 'A') return;
-            event.stopPropagation();
-            const activeMenus = document.querySelectorAll('.nav-item.active-menu');
-            activeMenus.forEach(menu => { if(menu !== elem) menu.classList.remove('active-menu'); });
-            elem.classList.toggle('active-menu');
-        }
-    }
-
-    window.addEventListener('click', function(e) {
-        if (!e.target.closest('.nav-item')) {
-            const activeMenus = document.querySelectorAll('.nav-item.active-menu');
-            activeMenus.forEach(menu => menu.classList.remove('active-menu'));
-        }
-    });
-
-    function renderBoard() {
-        const listContainer = document.getElementById('boardList');
-        listContainer.innerHTML = '';
-
-        if(notices.length === 0) {
-            listContainer.innerHTML = `<tr><td colspan="3" class="no-data">등록된 공지사항이 없습니다.</td></tr>`;
-            return;
-        }
-
-        const reversedNotices = [...notices].reverse();
-
-        reversedNotices.forEach((post, index) => {
-            const tr = document.createElement('tr');
-            
-            const numTd = document.createElement('td');
-            numTd.className = 'center';
-            numTd.textContent = notices.length - index;
-            
-            const titleTd = document.createElement('td');
-            titleTd.className = 'title';
-            titleTd.textContent = post.title;
-            titleTd.onclick = () => viewPost(post.id);
-            
-            const dateTd = document.createElement('td');
-            dateTd.className = 'center date-cell';
-            dateTd.textContent = post.date;
-
-            tr.appendChild(numTd);
-            tr.appendChild(titleTd);
-            tr.appendChild(dateTd);
-            listContainer.appendChild(tr);
-        });
-    }
-
-    function resetFormState() {
-        isEditMode = false;
-        editPostId = null;
-        document.getElementById('writeForm').style.display = 'none';
-        document.getElementById('btnToggleWrite').style.display = 'block';
-        document.getElementById('formTitleLabel').textContent = '공지 제목';
-        document.getElementById('btnSave').textContent = '등록하기';
-        document.getElementById('postTitle').value = '';
-        document.getElementById('postContent').value = '';
-    }
-
-    function openWriteForm() {
-        const pwd = prompt("공지사항 작성을 위해 관리자 비밀번호를 입력하세요.");
-        if(pwd !== ADMIN_PASSWORD) {
-            if(pwd !== null) alert("비밀번호가 일치하지 않습니다.");
-            return;
-        }
-        resetFormState();
-        document.getElementById('writeForm').style.display = 'block';
-        document.getElementById('btnToggleWrite').style.display = 'none';
-    }
-
-    function cancelWriteForm() {
-        resetFormState();
-    }
-
-    function generateNewCode(updatedNotices) {
-        const codeString = `let notices = ${JSON.stringify(updatedNotices, null, 8)};`;
-        
-        const textarea = document.createElement('textarea');
-        textarea.value = codeString;
-        textarea.style.width = '100%';
-        textarea.style.height = '200px';
-        textarea.style.marginTop = '15px';
-        textarea.style.fontFamily = 'monospace';
-        textarea.readOnly = true;
-
-        const container = document.createElement('div');
-        container.innerHTML = `<p style="font-weight:bold; color:#e74c3c; margin:0;">⚠️ 모바일 반영을 위한 필수 단계!</p>
-                               <p style="font-size:12px; color:#666; margin:5px 0 15px 0;">아래 텍스트 상자의 코드를 전체 복사하여, HTML 파일 하단의 고정 데이터 영역에 덮어텨운 후 서버에 업로드하세요.</p>`;
-        container.appendChild(textarea);
-
-        document.getElementById('modalTitle').textContent = "🎉 변경된 소스코드 생성 완료";
-        document.getElementById('modalDate').textContent = "";
-        document.getElementById('modalBody').innerHTML = "";
-        document.getElementById('modalBody').appendChild(container);
-        
-        document.getElementById('btnEditPost').style.display = 'none';
-        document.getElementById('btnDeletePost').style.display = 'none';
-        
-        document.getElementById('postModal').style.display = 'flex';
-    }
-
-    function savePost() {
-        const title = document.getElementById('postTitle').value.trim();
-        const content = document.getElementById('postContent').value.trim();
-
-        if(!title || !content) {
-            alert("제목과 내용을 모두 입력해 주세요.");
-            return;
-        }
-
-        if (isEditMode) {
-            const postIndex = notices.findIndex(item => item.id === editPostId);
-            if (postIndex > -1) {
-                notices[postIndex].title = title;
-                notices[postIndex].content = content;
-                alert("공지사항이 성공적으로 수정되었습니다.\n생성된 코드를 복사하세요.");
-            }
-        } else {
-            const today = new Date();
-            const yy = String(today.getFullYear()).slice(-2);
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
-            const dateString = `${yy}-${mm}-${dd}`;
-
-            const newPost = {
-                id: Date.now(),
-                title: title,
-                content: content,
-                date: dateString
-            };
-
-            notices.push(newPost);
-            alert("공지사항이 성공적으로 등록되었습니다.\n생성된 코드를 복사하세요.");
-        }
-
-        const tempNotices = [...notices];
-        resetFormState();
-        renderBoard();
-        generateNewCode(tempNotices);
-    }
-
-    function viewPost(id) {
-        const post = notices.find(item => item.id === id);
-        if(!post) return;
-
-        document.getElementById('modalTitle').textContent = post.title;
-        document.getElementById('modalDate').textContent = `작성일: ${post.date}`;
-        document.getElementById('modalBody').textContent = post.content;
-        
-        const delBtn = document.getElementById('btnDeletePost');
-        delBtn.onclick = () => deletePost(post.id);
-
-        const editBtn = document.getElementById('btnEditPost');
-        editBtn.onclick = () => switchToEditMode(post.id);
-
-        document.getElementById('postModal').style.display = 'flex';
-    }
-
-    function switchToEditMode(id) {
-        const pwd = prompt("게시글을 수정하시려면 관리자 비밀번호를 입력하세요.");
-        if(pwd !== ADMIN_PASSWORD) {
-            if(pwd !== null) alert("비밀번호가 잘못되었습니다.");
-            return;
-        }
-
-        const post = notices.find(item => item.id === id);
-        if(!post) return;
-
-        isEditMode = true;
-        editPostId = id;
-
-        document.getElementById('formTitleLabel').textContent = '공지 제목 (수정 중)';
-        document.getElementById('btnSave').textContent = '수정완료';
-        
-        document.getElementById('postTitle').value = post.title;
-        document.getElementById('postContent').value = post.content;
-
-        closeModal();
-        document.getElementById('writeForm').style.display = 'block';
-        document.getElementById('btnToggleWrite').style.display = 'none';
-        
-        document.getElementById('writeForm').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    document.getElementById('postModal').addEventListener('click', function(e) {
-        if(e.target === this) closeModal();
-    });
-
-    function closeModal() {
-        document.getElementById('postModal').style.display = 'none';
-        document.getElementById('btnEditPost').style.display = 'inline-block';
-        document.getElementById('btnDeletePost').style.display = 'inline-block';
-    }
-
-    function deletePost(id) {
-        const pwd = prompt("게시글을 삭제하시려면 관리자 비밀번호를 입력하세요.");
-        if(pwd !== ADMIN_PASSWORD) {
-            if(pwd !== null) alert("비밀번호가 잘못되었습니다.");
-            return;
-        }
-
-        if(confirm("이 공지사항을 정말로 삭제하시겠습니까?")) {
-            notices = notices.filter(item => item.id !== id);
-            alert("삭제되었습니다. 업데이트된 코드를 파일에 반영하세요.");
-            renderBoard();
-            generateNewCode(notices);
-        }
-    }
-
-    renderBoard();
-</script>
-
-</body>
-</html>
