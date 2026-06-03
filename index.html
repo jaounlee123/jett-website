@@ -113,7 +113,7 @@
             flex-shrink: 0;
         }
 
-        /* ─── [모바일 완벽 대처] 트럼프 카드식 최적화 레이아웃 ─── */
+        /* ─── [수정 및 정리] 트럼프 패식 레이아웃 ─── */
         .profile-container {
             display: flex;
             justify-content: center;
@@ -121,7 +121,7 @@
             max-width: 100%;
             margin: 40px auto 20px;
             padding: 40px 10px;
-            height: 460px; /* 팝업 상승 공간 고정 */
+            height: 460px; 
             position: relative;
         }
 
@@ -137,24 +137,20 @@
             flex-direction: column;
             align-items: center;
             border: 1px solid #eef0f5;
-            /* 가속도 및 모바일 터치 반응 속도를 위한 베지에 곡선 적용 */
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, z-index 0.3s ease;
         }
         
-        /* [핵심 수정] 대표님 프로필이 무조건 최상단(z-index:20)으로 시작하고 모집중 카드가 아래로 깔림 */
         .card-1 {
             z-index: 20; 
             box-shadow: 4px 4px 20px rgba(0,0,0,0.08);
         }
         
-        /* 모바일(기본) 환경 화면 폭에 맞춰 카드 겹침 폭 최적화 (-140px) */
         .card-2 {
             z-index: 10; 
             margin-left: -140px; 
             box-shadow: -4px 4px 15px rgba(0,0,0,0.04);
         }
 
-        /* 호버 혹은 터치(Focus) 시 가려진 카드가 무조건 앞으로 튀어나오며 위로 상승 */
         .profile-card:hover, .profile-card:focus-within {
             z-index: 100 !important; 
             transform: translateY(-45px); 
@@ -162,11 +158,11 @@
             background: #fff;
         }
         
-        /* 모집중 카드 전용 스타일 */
+        /* 모집중 전용 디자인 - 텍스트 중앙 정렬 강화 */
         .profile-card.recruiting {
             background: #fdfdfd;
             border: 2px dashed #cbd5e1;
-            justify-content: center;
+            justify-content: center; /* 내부 요소를 수직 정중앙에 배치 */
         }
         .profile-card.recruiting:hover {
             border-style: solid;
@@ -174,9 +170,22 @@
             background: #fff;
         }
         .recruiting-icon {
-            font-size: 2.3rem;
+            font-size: 2.5rem;
             color: #f39c12;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+        }
+        .recruiting-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1a2a6c;
+            letter-spacing: -0.03em;
+            margin: 0;
+        }
+        .recruiting-sub {
+            font-size: 0.85rem;
+            color: #f39c12;
+            font-weight: 700;
+            margin-top: 5px;
         }
 
         .profile-info { width: 100%; }
@@ -192,54 +201,6 @@
         }
         .profile-list li { margin-bottom: 10px; font-size: 0.85rem; display: flex; align-items: flex-start; line-height: 1.4; color: #444; }
         .profile-list li::before { content: '✓'; color: #f39c12; font-weight: bold; margin-right: 8px; flex-shrink: 0; }
-        /* ────────────────────────────────────────────────────────────── */
-
-        .service-grid { display: grid; grid-template-columns: 1fr; gap: 15px; max-width: 500px; margin: 0 auto; }
-        .service-item { padding: 30px 20px; background: #f9f9f9; border-radius: 12px; text-align: center; border: 1px solid #eee; }
-        .service-item h3 { margin-top: 0; font-size: 1.3rem; color: #1a2a6c; }
-
-        .contact-box { background: #f9f9f9; padding: 35px 20px; border-radius: 16px; width: 100%; max-width: 360px; margin: 0 auto; }
-        .contact-box p { font-size: 1rem; margin: 18px 0; }
-        .contact-box a { color: #1a2a6c; text-decoration: none; font-weight: bold; border-bottom: 2px solid #f39c12; padding-bottom: 2px; }
-
-        .board-wrapper { max-width: 800px; margin: 0 auto; background: #fff; padding: 10px; }
-        .board-header { display: flex; justify-content: flex-end; margin-bottom: 15px; }
-        .btn-sm { padding: 8px 18px; background: #1a2a6c; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 0.85rem; }
-        .btn-sm.btn-secondary { background: #eee; color: #333; margin-right: 8px; }
-        
-        .board-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; table-layout: fixed; }
-        .board-table th, .board-table td { padding: 12px 6px; border-bottom: 1px solid #eee; vertical-align: middle; }
-        .board-table th { background: #f8f9fa; color: #1a2a6c; font-weight: 700; }
-        
-        .col-num { width: 45px; text-align: center; }
-        .col-date { width: 75px; text-align: center; } 
-        
-        .board-table td.center { text-align: center; color: #888; font-size: 0.85rem; white-space: nowrap; }
-        .board-table td.date-cell { white-space: nowrap; letter-spacing: -0.02em; } 
-        
-        .board-table td.title { 
-            color: #333; 
-            cursor: pointer; 
-            font-weight: 500; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
-            white-space: nowrap; 
-        }
-        .board-table td.title:hover { text-decoration: underline; color: #f39c12; }
-        .no-data { text-align: center; padding: 40px 0; color: #999; }
-
-        .write-form { display: none; background: #f9f9f9; padding: 20px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: 700; margin-bottom: 6px; font-size: 0.9rem; color: #1a2a6c; }
-        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 0.9rem; }
-        .form-control:focus { border-color: #1a2a6c; outline: none; }
-        
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: #fff; width: 100%; max-width: 600px; border-radius: 16px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); position: relative; }
-        .modal-title { font-size: 1.3rem; color: #1a2a6c; margin-top: 0; margin-bottom: 10px; font-weight: 800; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .modal-date { font-size: 0.8rem; color: #999; text-align: right; margin-bottom: 15px; }
-        .modal-body { font-size: 0.95rem; line-height: 1.7; white-space: pre-wrap; color: #444; min-height: 150px; max-height: 400px; overflow-y: auto; }
-        .modal-footer { display: flex; justify-content: flex-end; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px; gap: 8px; }
 
         @media (min-width: 1024px) {
             header { height: 80px; padding: 0 8%; }
@@ -270,7 +231,6 @@
             .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
             .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
             
-            /* PC 해상도 전용 트럼프 오버랩 마진 최적화 (-220px) */
             .profile-container { 
                 height: 500px;
                 margin-top: 50px;
@@ -286,6 +246,7 @@
             .profile-info h3 { font-size: 1.6rem; }
             .profile-info .sub-title { font-size: 0.9rem; }
             .profile-list li { font-size: 1rem; margin-bottom: 14px; }
+            .recruiting-text { font-size: 1.6rem; }
             
             .service-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; }
             .service-item { padding: 50px 30px; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
@@ -355,10 +316,12 @@
         </div>
     </section>
 
+    <!-- ─── [수정 완료] 두 번째 카드 멘트 제거 및 중앙 정돈 ─── -->
     <section id="about" class="content-section">
         <h2 class="section-title">Instructor Profile</h2>
         <div class="profile-container">
             
+            <!-- 첫 번째 카드: 대표 프로필 (A 카드 위치) -->
             <div class="profile-card card-1" tabindex="0">
                 <div class="profile-info">
                     <h3>John Lee</h3>
@@ -375,24 +338,17 @@
                 </div>
             </div>
 
+            <!-- 두 번째 카드: 불필요한 조건 리스트를 지우고 정중앙에 "모집중" 배치 -->
             <div class="profile-card card-2 recruiting" tabindex="0">
-                <div class="profile-info">
-                    <div class="recruiting-icon">✉</div>
-                    <h3>Elite Instructor</h3>
-                    <span class="sub-title" style="color: #888;">추가 인스트럭터 초빙 중</span>
-                    
-                    <ul class="profile-list" style="color: #666;">
-                        <li>최고의 교수 역량을 지닌 인재</li>
-                        <li>검증된 교육 자격 요건 검토 중</li>
-                        <li>JETT 교육 철학 연수 예정</li>
-                        <li>1:1 및 프리미엄 매칭 전문</li>
-                    </ul>
-                    <p style="font-size: 0.85rem; color:#f39c12; margin-top:25px; font-weight:bold;">Join Our Elite Team!</p>
-                </div>
+                <div class="recruiting-icon">✉</div>
+                <h3 class="recruiting-text">모집중</h3>
+                <div class="recruiting-sub">Elite Instructor</div>
             </div>
 
         </div>
     </section>
+    <!-- ────────────────────────────────────────────────────────────── -->
+
     <section id="service" class="content-section">
         <h2 class="section-title">Our Services</h2>
         <div class="service-grid">
