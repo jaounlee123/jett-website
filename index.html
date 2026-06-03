@@ -113,52 +113,56 @@
             flex-shrink: 0;
         }
 
-        /* ─── [수정] 트럼프 카드식 초밀착 겹침 레이아웃 스타일 ─── */
+        /* ─── [모바일 완벽 대처] 트럼프 카드식 최적화 레이아웃 ─── */
         .profile-container {
             display: flex;
             justify-content: center;
             align-items: center;
             max-width: 100%;
             margin: 40px auto 20px;
-            padding: 40px 20px;
-            height: 460px;
+            padding: 40px 10px;
+            height: 460px; /* 팝업 상승 공간 고정 */
+            position: relative;
         }
 
         .profile-card {
             position: relative;
-            width: 290px;
+            width: 280px;
             height: 400px;
             background: #f9f9f9; 
-            padding: 40px 25px; 
+            padding: 35px 20px; 
             border-radius: 20px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             border: 1px solid #eef0f5;
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+            /* 가속도 및 모바일 터치 반응 속도를 위한 베지에 곡선 적용 */
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, z-index 0.3s ease;
         }
         
-        /* 사진 예시처럼 간격을 극단적으로 줄여 겹치도록 마진과 z-index 설정 */
+        /* [핵심 수정] 대표님 프로필이 무조건 최상단(z-index:20)으로 시작하고 모집중 카드가 아래로 깔림 */
         .card-1 {
-            z-index: 10; /* 첫 번째 카드가 아래에 깔림 (사진의 왼쪽 카드 역할) */
-            box-shadow: -4px 4px 15px rgba(0,0,0,0.05);
+            z-index: 20; 
+            box-shadow: 4px 4px 20px rgba(0,0,0,0.08);
         }
+        
+        /* 모바일(기본) 환경 화면 폭에 맞춰 카드 겹침 폭 최적화 (-140px) */
         .card-2 {
-            z-index: 20; /* 두 번째 카드가 위를 덮음 (사진의 맨 위 카드 역할) */
-            margin-left: -215px; /* 모바일 가독성을 고려한 촘촘한 오버랩 마진 */
-            box-shadow: -8px 4px 20px rgba(0,0,0,0.08); /* 덮는 카드의 왼쪽 그림자 생성 */
+            z-index: 10; 
+            margin-left: -140px; 
+            box-shadow: -4px 4px 15px rgba(0,0,0,0.04);
         }
 
-        /* 마우스를 올렸을 때 수직 상승하며 가려진 본문이 명확하게 드러남 */
-        .profile-card:hover {
+        /* 호버 혹은 터치(Focus) 시 가려진 카드가 무조건 앞으로 튀어나오며 위로 상승 */
+        .profile-card:hover, .profile-card:focus-within {
             z-index: 100 !important; 
             transform: translateY(-45px); 
             box-shadow: 0 15px 35px rgba(26, 42, 108, 0.15);
             background: #fff;
         }
         
-        /* 모집중 카드 디자인 */
+        /* 모집중 카드 전용 스타일 */
         .profile-card.recruiting {
             background: #fdfdfd;
             border: 2px dashed #cbd5e1;
@@ -170,13 +174,13 @@
             background: #fff;
         }
         .recruiting-icon {
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             color: #f39c12;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .profile-info { width: 100%; }
-        .profile-info h3 { font-size: 1.4rem; margin: 0 0 6px 0; color: #1a2a6c; text-align: center; font-weight: 800; }
+        .profile-info h3 { font-size: 1.35rem; margin: 0 0 6px 0; color: #1a2a6c; text-align: center; font-weight: 800; }
         .profile-info .sub-title { color: #f39c12; font-weight: 700; margin-bottom: 25px; display: block; font-size: 0.85rem; text-align: center; }
         
         .profile-list { 
@@ -186,7 +190,7 @@
             text-align: left;
             display: inline-block;
         }
-        .profile-list li { margin-bottom: 12px; font-size: 0.9rem; display: flex; align-items: flex-start; line-height: 1.4; color: #444; }
+        .profile-list li { margin-bottom: 10px; font-size: 0.85rem; display: flex; align-items: flex-start; line-height: 1.4; color: #444; }
         .profile-list li::before { content: '✓'; color: #f39c12; font-weight: bold; margin-right: 8px; flex-shrink: 0; }
         /* ────────────────────────────────────────────────────────────── */
 
@@ -266,21 +270,22 @@
             .intro-wrapper .p-main { font-size: 1.4rem; line-height: 1.8; margin-bottom: 20px; }
             .intro-wrapper .p-sub { font-size: 1.1rem; margin: 10px auto; }
             
-            /* ─── [변경] 대형 데스크톱 화면 기준 밀착 스택 배치 조정 ─── */
+            /* PC 해상도 전용 트럼프 오버랩 마진 최적화 (-220px) */
             .profile-container { 
                 height: 500px;
                 margin-top: 50px;
+                padding: 40px 20px;
             }
             .profile-card { 
                 width: 320px;
                 height: 440px;
+                padding: 45px 30px;
             }
-            .card-2 { margin-left: -235px; } /* 넓은 화면에서도 정확히 왼쪽 인덱스 영역만 노출되도록 조정 */
+            .card-2 { margin-left: -220px; } 
             
             .profile-info h3 { font-size: 1.6rem; }
             .profile-info .sub-title { font-size: 0.9rem; }
             .profile-list li { font-size: 1rem; margin-bottom: 14px; }
-            /* ────────────────────────────────────────────────── */
             
             .service-grid { grid-template-columns: repeat(2, 1fr); gap: 30px; max-width: 800px; }
             .service-item { padding: 50px 30px; border-radius: 16px; transition: transform 0.2s, box-shadow 0.2s; }
@@ -354,7 +359,7 @@
         <h2 class="section-title">Instructor Profile</h2>
         <div class="profile-container">
             
-            <div class="profile-card card-1">
+            <div class="profile-card card-1" tabindex="0">
                 <div class="profile-info">
                     <h3>John Lee</h3>
                     <span class="sub-title">JETT 대표 인스트럭터</span>
@@ -370,7 +375,7 @@
                 </div>
             </div>
 
-            <div class="profile-card card-2 recruiting">
+            <div class="profile-card card-2 recruiting" tabindex="0">
                 <div class="profile-info">
                     <div class="recruiting-icon">✉</div>
                     <h3>Elite Instructor</h3>
