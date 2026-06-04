@@ -28,7 +28,12 @@
         nav { display: flex; align-items: center; height: 100%; }
         .nav-item { position: relative; margin-left: 12px; height: 100%; display: flex; align-items: center; cursor: pointer; }
         .nav-link { text-decoration: none; color: #555; font-weight: 600; padding: 10px 5px; font-size: 14px; }
-        
+        .nav-link { transition: all 0.25s ease; display: inline-block; }
+
+.nav-link:hover {
+    font-weight: 700;
+    transform: scale(1.06);
+}
         .dropdown-content {
             display: none;
             position: absolute;
@@ -49,6 +54,13 @@
             font-size: 13px;
             border-bottom: 1px solid #f9f9f9;
             cursor: pointer;
+        }
+        .dropdown-content a {
+            transition: font-weight 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            font-weight: 700;
         }
         .dropdown-content a:last-child { border-bottom: none; }
         .nav-item.active-menu .dropdown-content { display: block; }
